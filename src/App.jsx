@@ -14,9 +14,22 @@ function App() {
 
   const scrollToSection = (id) => {
     setActiveTab(id);
-    const element = document.getElementById(id);
-    if (element && mainRef.current) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    const index = tabs.indexOf(id);
+    if (mainRef.current && index !== -1) {
+      // Temporarily disable scroll snapping to prevent programmatic scrolling freeze
+      mainRef.current.style.scrollSnapType = 'none';
+      
+      mainRef.current.scrollTo({
+        top: index * mainRef.current.clientHeight,
+        behavior: 'smooth'
+      });
+
+      // Restore scroll snap after smooth scroll is complete
+      setTimeout(() => {
+        if (mainRef.current) {
+          mainRef.current.style.scrollSnapType = 'y mandatory';
+        }
+      }, 800);
     }
   };
 
@@ -116,7 +129,7 @@ function App() {
         </section>
       </main>
       
-      <div style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', zIndex: -100 }}>
+      <div style={{ position: 'fixed', left: '-9999px', top: 0, pointerEvents: 'none', zIndex: -1 }}>
         <CVTemplate ref={cvRef} />
       </div>
     </div>
