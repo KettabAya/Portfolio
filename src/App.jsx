@@ -120,78 +120,148 @@ function App() {
         <section id="home" className="h-full w-full snap-start flex items-center justify-center shrink-0 relative overflow-hidden">
           {/* Flying Background Layer */}
           <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-            {/* Direct Parallax Background Image */}
+            {/* Direct Parallax Background Image - Floating/Panning Zoom */}
             <motion.div
-              className="absolute top-[-10%] left-[-10%] w-[120%] h-[120%] bg-cover bg-center"
+              className="absolute top-[-15%] left-[-15%] w-[130%] h-[130%] bg-cover bg-center"
               style={{ 
                 backgroundImage: `url(${picBg})`,
-                opacity: 0.18,
-                filter: 'blur(3px) brightness(0.5) contrast(1.1)'
+                opacity: 0.22,
+                filter: 'blur(2.5px) brightness(0.48) contrast(1.15)'
               }}
               animate={{
-                x: mousePos.x,
-                y: mousePos.y,
-                scale: 1.12,
+                x: [mousePos.x - 20, mousePos.x + 20, mousePos.x - 20],
+                y: [mousePos.y - 15, mousePos.y + 15, mousePos.y - 15],
+                scale: [1.1, 1.18, 1.1],
+                rotate: [-1.2, 1.2, -1.2]
               }}
               transition={{
-                type: "spring",
-                stiffness: 40,
-                damping: 20
+                x: { type: "spring", stiffness: 30, damping: 22 },
+                y: { type: "spring", stiffness: 30, damping: 22 },
+                scale: { duration: 45, repeat: Infinity, ease: "easeInOut" },
+                rotate: { duration: 55, repeat: Infinity, ease: "easeInOut" }
               }}
             />
             
-            {/* Blurry Depth Background Layer */}
+            {/* Blurry Depth Background Layer - Opposite/Faster float for parallax depth */}
             <motion.div
-              className="absolute top-[-15%] left-[-15%] w-[130%] h-[130%] bg-cover bg-center mix-blend-screen"
+              className="absolute top-[-20%] left-[-20%] w-[140%] h-[140%] bg-cover bg-center mix-blend-screen"
               style={{ 
                 backgroundImage: `url(${picBg})`,
-                opacity: 0.08,
-                filter: 'blur(20px) brightness(0.6) hue-rotate(15deg)'
+                opacity: 0.09,
+                filter: 'blur(22px) brightness(0.65) hue-rotate(25deg)'
               }}
               animate={{
-                x: [mousePos.x * 1.4 - 12, mousePos.x * 1.4 + 12, mousePos.x * 1.4 - 12],
-                y: [mousePos.y * 1.4 - 12, mousePos.y * 1.4 + 12, mousePos.y * 1.4 - 12],
-                scale: [1.18, 1.24, 1.18],
-                rotate: [0.3, -0.3, 0.3]
+                x: [mousePos.x * 1.4 + 25, mousePos.x * 1.4 - 25, mousePos.x * 1.4 + 25],
+                y: [mousePos.y * 1.4 + 20, mousePos.y * 1.4 - 20, mousePos.y * 1.4 + 20],
+                scale: [1.2, 1.3, 1.2],
+                rotate: [2.5, -2.5, 2.5]
               }}
               transition={{
-                x: { type: "spring", stiffness: 35, damping: 25 },
-                y: { type: "spring", stiffness: 35, damping: 25 },
-                scale: { duration: 28, repeat: Infinity, ease: "easeInOut" },
-                rotate: { duration: 28, repeat: Infinity, ease: "easeInOut" }
+                x: { type: "spring", stiffness: 25, damping: 20 },
+                y: { type: "spring", stiffness: 25, damping: 20 },
+                scale: { duration: 38, repeat: Infinity, ease: "easeInOut" },
+                rotate: { duration: 48, repeat: Infinity, ease: "easeInOut" }
               }}
             />
 
-            {/* 3D Parallax Flying Particles */}
-            <div className="absolute inset-0 z-10">
-              {[...Array(15)].map((_, i) => {
-                const size = Math.random() * 5 + 2;
-                const duration = Math.random() * 10 + 12;
-                const delay = Math.random() * -12;
-                const depthMultiplier = size < 3 ? 0.3 : size < 4.5 ? 0.7 : 1.2;
+            {/* TWINKLING DISTANT STARS */}
+            <div className="absolute inset-0 z-5">
+              {[...Array(45)].map((_, i) => {
+                const size = Math.random() * 2 + 0.8;
+                const top = Math.random() * 100;
+                const left = Math.random() * 100;
                 return (
                   <motion.div
-                    key={i}
+                    key={`star-${i}`}
+                    className="absolute bg-white rounded-full pointer-events-none"
+                    style={{
+                      width: size,
+                      height: size,
+                      top: `${top}%`,
+                      left: `${left}%`,
+                      boxShadow: '0 0 5px rgba(255, 255, 255, 0.95)',
+                      opacity: Math.random() * 0.7 + 0.3
+                    }}
+                    animate={{
+                      opacity: [0.15, 1, 0.15],
+                      scale: [0.75, 1.25, 0.75]
+                    }}
+                    transition={{
+                      duration: Math.random() * 3.5 + 1.5,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: Math.random() * -3.5
+                    }}
+                  />
+                );
+              })}
+            </div>
+
+            {/* DIAGONAL SHOOTING STARS */}
+            <div className="absolute inset-0 z-8">
+              {[...Array(3)].map((_, i) => {
+                const startX = Math.random() * 60 + 10; // 10% to 70%
+                const startY = Math.random() * 40; // 0% to 40%
+                const duration = Math.random() * 1.2 + 0.8;
+                const delay = Math.random() * 14 + i * 9;
+                return (
+                  <motion.div
+                    key={`shooting-star-${i}`}
+                    className="absolute h-[1px] bg-gradient-to-r from-transparent via-white to-transparent pointer-events-none origin-left"
+                    style={{
+                      top: `${startY}%`,
+                      left: `${startX}%`,
+                      width: '100px',
+                      transform: 'rotate(-38deg)'
+                    }}
+                    initial={{ opacity: 0, scaleX: 0, x: 0, y: 0 }}
+                    animate={{
+                      opacity: [0, 1, 1, 0],
+                      scaleX: [0, 1.8, 0.6, 0],
+                      x: ['0px', '320px'],
+                      y: ['0px', '250px']
+                    }}
+                    transition={{
+                      duration: duration,
+                      repeat: Infinity,
+                      repeatDelay: delay,
+                      ease: "easeOut"
+                    }}
+                  />
+                );
+              })}
+            </div>
+
+            {/* FLOWING SPACE DUST (Hyper-Speed Starfield) */}
+            <div className="absolute inset-0 z-10">
+              {[...Array(18)].map((_, i) => {
+                const size = Math.random() * 4.5 + 1.5;
+                const duration = Math.random() * 7 + 9;
+                const delay = Math.random() * -9;
+                const depthMultiplier = size < 2.5 ? 0.35 : size < 4 ? 0.75 : 1.3;
+                return (
+                  <motion.div
+                    key={`particle-${i}`}
                     className="absolute rounded-full pointer-events-none"
                     style={{
                       width: size,
                       height: size,
                       left: `${Math.random() * 100}%`,
-                      filter: 'blur(1px)',
+                      filter: 'blur(0.8px)',
                       background: i % 3 === 0 
-                        ? 'radial-gradient(circle, rgba(0, 209, 255, 0.7) 0%, transparent 80%)'
+                        ? 'radial-gradient(circle, rgba(0, 242, 254, 0.8) 0%, transparent 80%)'
                         : i % 3 === 1 
-                        ? 'radial-gradient(circle, rgba(79, 172, 254, 0.7) 0%, transparent 80%)'
-                        : 'radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, transparent 80%)'
+                        ? 'radial-gradient(circle, rgba(79, 172, 254, 0.8) 0%, transparent 80%)'
+                        : 'radial-gradient(circle, rgba(255, 255, 255, 0.7) 0%, transparent 80%)'
                     }}
                     animate={{
                       y: ['110%', '-10%'],
                       x: [
                         '0px',
-                        `${(Math.random() - 0.5) * 120}px`
+                        `${(Math.random() - 0.5) * 160}px`
                       ],
-                      translateX: mousePos.x * depthMultiplier * 1.8,
-                      translateY: mousePos.y * depthMultiplier * 1.8
+                      translateX: mousePos.x * depthMultiplier * 2.2,
+                      translateY: mousePos.y * depthMultiplier * 2.2
                     }}
                     transition={{
                       y: {
