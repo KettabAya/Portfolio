@@ -4,6 +4,7 @@ import { FaGraduationCap, FaPalette, FaPuzzlePiece, FaHandshake, FaFire } from '
 import { motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import CVTemplate from './components/CVTemplate';
+import picBg from './assets/pic_bg.jpg';
 
 const tabs = ['home', 'about', 'portfolio', 'skills', 'contact'];
 
@@ -11,6 +12,18 @@ function App() {
   const [activeTab, setActiveTab] = useState('home');
   const mainRef = useRef(null);
   const cvRef = useRef(null);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePos({
+        x: (e.clientX - window.innerWidth / 2) / 35,
+        y: (e.clientY - window.innerHeight / 2) / 35
+      });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   const scrollToSection = (id) => {
     setActiveTab(id);
@@ -104,10 +117,114 @@ function App() {
         onScroll={handleScroll}
         className="h-full w-full overflow-y-auto snap-y snap-mandatory scroll-smooth hide-scrollbar relative z-10"
       >
-        <section id="home" className="h-full w-full snap-start flex items-center justify-center shrink-0 relative">
+        <section id="home" className="h-full w-full snap-start flex items-center justify-center shrink-0 relative overflow-hidden">
+          {/* Flying Background Layer */}
+          <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+            {/* Direct Parallax Background Image */}
+            <motion.div
+              className="absolute top-[-10%] left-[-10%] w-[120%] h-[120%] bg-cover bg-center"
+              style={{ 
+                backgroundImage: `url(${picBg})`,
+                opacity: 0.18,
+                filter: 'blur(3px) brightness(0.5) contrast(1.1)'
+              }}
+              animate={{
+                x: mousePos.x,
+                y: mousePos.y,
+                scale: 1.12,
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 40,
+                damping: 20
+              }}
+            />
+            
+            {/* Blurry Depth Background Layer */}
+            <motion.div
+              className="absolute top-[-15%] left-[-15%] w-[130%] h-[130%] bg-cover bg-center mix-blend-screen"
+              style={{ 
+                backgroundImage: `url(${picBg})`,
+                opacity: 0.08,
+                filter: 'blur(20px) brightness(0.6) hue-rotate(15deg)'
+              }}
+              animate={{
+                x: [mousePos.x * 1.4 - 12, mousePos.x * 1.4 + 12, mousePos.x * 1.4 - 12],
+                y: [mousePos.y * 1.4 - 12, mousePos.y * 1.4 + 12, mousePos.y * 1.4 - 12],
+                scale: [1.18, 1.24, 1.18],
+                rotate: [0.3, -0.3, 0.3]
+              }}
+              transition={{
+                x: { type: "spring", stiffness: 35, damping: 25 },
+                y: { type: "spring", stiffness: 35, damping: 25 },
+                scale: { duration: 28, repeat: Infinity, ease: "easeInOut" },
+                rotate: { duration: 28, repeat: Infinity, ease: "easeInOut" }
+              }}
+            />
+
+            {/* 3D Parallax Flying Particles */}
+            <div className="absolute inset-0 z-10">
+              {[...Array(15)].map((_, i) => {
+                const size = Math.random() * 5 + 2;
+                const duration = Math.random() * 10 + 12;
+                const delay = Math.random() * -12;
+                const depthMultiplier = size < 3 ? 0.3 : size < 4.5 ? 0.7 : 1.2;
+                return (
+                  <motion.div
+                    key={i}
+                    className="absolute rounded-full pointer-events-none"
+                    style={{
+                      width: size,
+                      height: size,
+                      left: `${Math.random() * 100}%`,
+                      filter: 'blur(1px)',
+                      background: i % 3 === 0 
+                        ? 'radial-gradient(circle, rgba(0, 209, 255, 0.7) 0%, transparent 80%)'
+                        : i % 3 === 1 
+                        ? 'radial-gradient(circle, rgba(79, 172, 254, 0.7) 0%, transparent 80%)'
+                        : 'radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, transparent 80%)'
+                    }}
+                    animate={{
+                      y: ['110%', '-10%'],
+                      x: [
+                        '0px',
+                        `${(Math.random() - 0.5) * 120}px`
+                      ],
+                      translateX: mousePos.x * depthMultiplier * 1.8,
+                      translateY: mousePos.y * depthMultiplier * 1.8
+                    }}
+                    transition={{
+                      y: {
+                        duration: duration,
+                        repeat: Infinity,
+                        ease: "linear",
+                        delay: delay
+                      },
+                      x: {
+                        duration: duration,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      },
+                      default: {
+                        type: "spring",
+                        stiffness: 45,
+                        damping: 22
+                      }
+                    }}
+                  />
+                );
+              })}
+            </div>
+            
+            {/* Ambient gradients to blend with theme */}
+            <div className="absolute top-0 left-0 w-full h-[30%] bg-gradient-to-b from-[#0B1120] to-transparent z-20"></div>
+            <div className="absolute bottom-0 left-0 w-full h-[35%] bg-gradient-to-t from-[#0B1120] to-transparent z-20"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,#0B1120_95%)] z-20"></div>
+          </div>
+
           <HeroSection onViewWork={() => scrollToSection('portfolio')} cvRef={cvRef} />
           {/* Scroll indicator */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce pointer-events-none">
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce pointer-events-none z-30">
             <FiChevronDown size={20} className="text-slate-500" />
           </div>
         </section>
@@ -219,7 +336,7 @@ function HeroSection({ onViewWork, cvRef }) {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="flex flex-col items-center text-center w-full max-w-2xl px-8 pr-24 relative"
+      className="flex flex-col items-center text-center w-full max-w-2xl px-8 pr-24 relative z-10"
     >
       {/* Glow behind avatar */}
       <motion.div 
