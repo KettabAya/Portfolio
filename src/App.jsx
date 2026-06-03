@@ -126,13 +126,13 @@ function App() {
               style={{ 
                 backgroundImage: `url(${picBg})`,
                 opacity: 0.22,
-                filter: 'blur(2.5px) brightness(0.48) contrast(1.15)'
+                filter: 'blur(2px) brightness(0.45) contrast(1.15)'
               }}
               animate={{
                 x: [mousePos.x - 20, mousePos.x + 20, mousePos.x - 20],
                 y: [mousePos.y - 15, mousePos.y + 15, mousePos.y - 15],
-                scale: [1.1, 1.18, 1.1],
-                rotate: [-1.2, 1.2, -1.2]
+                scale: [1.1, 1.25, 1.1],
+                rotate: [-1.5, 1.5, -1.5]
               }}
               transition={{
                 x: { type: "spring", stiffness: 30, damping: 22 },
@@ -147,14 +147,14 @@ function App() {
               className="absolute top-[-20%] left-[-20%] w-[140%] h-[140%] bg-cover bg-center mix-blend-screen"
               style={{ 
                 backgroundImage: `url(${picBg})`,
-                opacity: 0.09,
-                filter: 'blur(22px) brightness(0.65) hue-rotate(25deg)'
+                opacity: 0.08,
+                filter: 'blur(25px) brightness(0.6) hue-rotate(25deg)'
               }}
               animate={{
                 x: [mousePos.x * 1.4 + 25, mousePos.x * 1.4 - 25, mousePos.x * 1.4 + 25],
                 y: [mousePos.y * 1.4 + 20, mousePos.y * 1.4 - 20, mousePos.y * 1.4 + 20],
-                scale: [1.2, 1.3, 1.2],
-                rotate: [2.5, -2.5, 2.5]
+                scale: [1.2, 1.32, 1.2],
+                rotate: [3, -3, 3]
               }}
               transition={{
                 x: { type: "spring", stiffness: 25, damping: 20 },
@@ -166,8 +166,8 @@ function App() {
 
             {/* TWINKLING DISTANT STARS */}
             <div className="absolute inset-0 z-5">
-              {[...Array(45)].map((_, i) => {
-                const size = Math.random() * 2 + 0.8;
+              {[...Array(30)].map((_, i) => {
+                const size = Math.random() * 1.8 + 0.6;
                 const top = Math.random() * 100;
                 const left = Math.random() * 100;
                 return (
@@ -179,107 +179,100 @@ function App() {
                       height: size,
                       top: `${top}%`,
                       left: `${left}%`,
-                      boxShadow: '0 0 5px rgba(255, 255, 255, 0.95)',
+                      boxShadow: '0 0 4px rgba(255, 255, 255, 0.8)',
                       opacity: Math.random() * 0.7 + 0.3
                     }}
                     animate={{
-                      opacity: [0.15, 1, 0.15],
-                      scale: [0.75, 1.25, 0.75]
+                      opacity: [0.2, 1, 0.2],
+                      scale: [0.8, 1.2, 0.8]
                     }}
                     transition={{
-                      duration: Math.random() * 3.5 + 1.5,
+                      duration: Math.random() * 4 + 2,
                       repeat: Infinity,
                       ease: "easeInOut",
-                      delay: Math.random() * -3.5
+                      delay: Math.random() * -4
                     }}
                   />
                 );
               })}
             </div>
 
-            {/* DIAGONAL SHOOTING STARS */}
-            <div className="absolute inset-0 z-8">
-              {[...Array(3)].map((_, i) => {
-                const startX = Math.random() * 60 + 10; // 10% to 70%
-                const startY = Math.random() * 40; // 0% to 40%
-                const duration = Math.random() * 1.2 + 0.8;
-                const delay = Math.random() * 14 + i * 9;
+            {/* 3D STARFIELD FLYOUT (HYPERDRIVE EFFECT) */}
+            <div className="absolute inset-0 z-10">
+              {[...Array(32)].map((_, i) => {
+                const angle = Math.random() * 360; // Random angle in degrees
+                const radius = Math.random() * 600 + 350; // Random distance to fly out
+                const size = Math.random() * 2.5 + 1; // Star size
+                const duration = Math.random() * 2.5 + 1.8; // Flight duration
+                const delay = Math.random() * -5; // Negative delay for pre-warmed feel
+                
                 return (
                   <motion.div
-                    key={`shooting-star-${i}`}
-                    className="absolute h-[1px] bg-gradient-to-r from-transparent via-white to-transparent pointer-events-none origin-left"
+                    key={`warp-star-${i}`}
+                    className="absolute bg-white rounded-full pointer-events-none"
                     style={{
-                      top: `${startY}%`,
-                      left: `${startX}%`,
-                      width: '100px',
-                      transform: 'rotate(-38deg)'
+                      width: size,
+                      height: size,
+                      top: '50%',
+                      left: '50%',
+                      transformOrigin: 'center center',
+                      boxShadow: '0 0 6px rgba(255, 255, 255, 0.95)',
                     }}
-                    initial={{ opacity: 0, scaleX: 0, x: 0, y: 0 }}
                     animate={{
-                      opacity: [0, 1, 1, 0],
-                      scaleX: [0, 1.8, 0.6, 0],
-                      x: ['0px', '320px'],
-                      y: ['0px', '250px']
+                      x: ['-50%', `calc(-50% + ${Math.cos(angle * Math.PI / 180) * radius}px)`],
+                      y: ['-50%', `calc(-50% + ${Math.sin(angle * Math.PI / 180) * radius}px)`],
+                      scale: [0, 1.8, 3.5],
+                      opacity: [0, 1, 1, 0]
                     }}
                     transition={{
                       duration: duration,
                       repeat: Infinity,
-                      repeatDelay: delay,
-                      ease: "easeOut"
+                      ease: "easeIn",
+                      delay: delay
                     }}
                   />
                 );
               })}
             </div>
 
-            {/* FLOWING SPACE DUST (Hyper-Speed Starfield) */}
+            {/* HYPERDRIVE WARP STREAKS */}
             <div className="absolute inset-0 z-10">
-              {[...Array(18)].map((_, i) => {
-                const size = Math.random() * 4.5 + 1.5;
-                const duration = Math.random() * 7 + 9;
-                const delay = Math.random() * -9;
-                const depthMultiplier = size < 2.5 ? 0.35 : size < 4 ? 0.75 : 1.3;
+              {[...Array(12)].map((_, i) => {
+                const angle = Math.random() * 360;
+                const radius = Math.random() * 700 + 400;
+                const width = Math.random() * 70 + 40; // Length of the streak
+                const height = Math.random() * 1.5 + 0.6; // Thickness of the streak
+                const duration = Math.random() * 1.8 + 1.2;
+                const delay = Math.random() * -3;
+                
+                const cosVal = Math.cos(angle * Math.PI / 180);
+                const sinVal = Math.sin(angle * Math.PI / 180);
+
                 return (
                   <motion.div
-                    key={`particle-${i}`}
-                    className="absolute rounded-full pointer-events-none"
+                    key={`warp-streak-${i}`}
+                    className="absolute bg-gradient-to-r from-transparent via-[#00D1FF] to-[#ffffff] pointer-events-none origin-left"
                     style={{
-                      width: size,
-                      height: size,
-                      left: `${Math.random() * 100}%`,
-                      filter: 'blur(0.8px)',
-                      background: i % 3 === 0 
-                        ? 'radial-gradient(circle, rgba(0, 242, 254, 0.8) 0%, transparent 80%)'
-                        : i % 3 === 1 
-                        ? 'radial-gradient(circle, rgba(79, 172, 254, 0.8) 0%, transparent 80%)'
-                        : 'radial-gradient(circle, rgba(255, 255, 255, 0.7) 0%, transparent 80%)'
+                      width: width,
+                      height: height,
+                      top: '50%',
+                      left: '50%',
+                      rotate: `${angle}deg`,
+                      x: '-50%',
+                      y: '-50%',
+                      filter: 'drop-shadow(0 0 3px rgba(0, 209, 255, 0.6))',
                     }}
                     animate={{
-                      y: ['110%', '-10%'],
-                      x: [
-                        '0px',
-                        `${(Math.random() - 0.5) * 160}px`
-                      ],
-                      translateX: mousePos.x * depthMultiplier * 2.2,
-                      translateY: mousePos.y * depthMultiplier * 2.2
+                      x: ['-50%', `calc(-50% + ${cosVal * radius}px)`],
+                      y: ['-50%', `calc(-50% + ${sinVal * radius}px)`],
+                      scaleX: [0.1, 2.5, 0.5],
+                      opacity: [0, 0.8, 1, 0]
                     }}
                     transition={{
-                      y: {
-                        duration: duration,
-                        repeat: Infinity,
-                        ease: "linear",
-                        delay: delay
-                      },
-                      x: {
-                        duration: duration,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      },
-                      default: {
-                        type: "spring",
-                        stiffness: 45,
-                        damping: 22
-                      }
+                      duration: duration,
+                      repeat: Infinity,
+                      ease: "easeIn",
+                      delay: delay
                     }}
                   />
                 );
