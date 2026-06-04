@@ -1,14 +1,132 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import { FiHome, FiUser, FiBriefcase, FiMail, FiMapPin, FiPhone, FiSend, FiChevronDown, FiCode, FiServer, FiDatabase, FiGlobe, FiLayers, FiLink, FiGithub, FiLinkedin, FiTwitter, FiClock, FiFileText } from 'react-icons/fi';
 import { FaGraduationCap, FaPalette, FaPuzzlePiece, FaHandshake, FaFire } from 'react-icons/fa';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import CVTemplate from './components/CVTemplate';
 import picBg from './assets/pic_bg.jpg';
 
+// Import project screenshots
+import dzFitPreview from './assets/dz_fit_preview.png';
+import dzFitDash from './assets/dz_fit_dash.png';
+import dzFitReviews from './assets/dz_fit_reviews.png';
+import dzFitCourses from './assets/dz_fit_courses.png';
+import iotopiaPreview from './assets/iotopia_preview.png';
+import nhsmHelperPreview from './assets/nhsm_helper_preview.png';
+import nhsmHelper1 from './assets/nhsm_helper_1.png';
+import carpoolingPreview from './assets/carpooling_preview.png';
+import geriasafePreview from './assets/geriasafe_preview.png';
+import geriasafe1 from './assets/geriasafe_1.png';
+import geriasafe2 from './assets/geriasafe_2.png';
+import geriasafe3 from './assets/geriasafe_3.png';
+
 const tabs = ['home', 'about', 'portfolio', 'skills', 'contact'];
 
+import ProjectDetails from './components/ProjectDetails';
+
+export const projectsData = [
+  { 
+    id: "dz-fit",
+    title: "DZ-Fit", 
+    role: "Tech Lead · Back-End",
+    category: "Back-End",
+    status: "Finished",
+    type: "Personal",
+    accent: { color: "#F59E0B", glow: "rgba(245,158,11,0.25)", label: "Lead Role", sweep: "from-yellow-500/30 to-amber-400/10" },
+    desc: [
+      "Led full technical cycle of a gym search platform",
+      "RESTful API for gym, slot & booking management",
+      "PostgreSQL geo-search optimization + Docker"
+    ],
+    tags: ["Django", "FastAPI", "PostgreSQL", "Docker"],
+    gradient: "from-amber-500/30 to-yellow-500/10",
+    image: dzFitPreview,
+    images: [dzFitDash, dzFitReviews, dzFitCourses],
+    link: "https://dz-fit.up.railway.app/"
+  },
+  { 
+    id: "iotopia",
+    title: "IoTopia", 
+    role: "Back-End Dev · Academic",
+    category: "Back-End",
+    status: "Finished",
+    type: "University",
+    accent: { color: "#00D1FF", glow: "rgba(0,209,255,0.2)", label: "Back-End", sweep: "from-cyan-500/30 to-cyan-400/10" },
+    desc: [
+      "Backend for a gamified IoT learning platform",
+      "Quiz engine, user progression & secured API endpoints"
+    ],
+    tags: ["Node.js", "MongoDB", "JavaScript"],
+    gradient: "from-cyan-500/25 to-teal-500/10",
+    image: iotopiaPreview,
+    link: "https://github.com/KettabAya/IoTopia"
+  },
+  { 
+    id: "ai-study-chatbot",
+    title: "NHSM Helper", 
+    role: "AI Developer · Personal",
+    category: "AI",
+    status: "Finished",
+    type: "Personal",
+    accent: { color: "#A855F7", glow: "rgba(168,85,247,0.25)", label: "AI / LLM", sweep: "from-violet-500/30 to-purple-400/10" },
+    desc: [
+      "Llama3 LLM integration for maths study assistance",
+      "Conversational UI tailored to NHSM learning workflows"
+    ],
+    tags: ["Python", "Llama3", "API Integration"],
+    gradient: "from-violet-500/25 to-purple-500/10",
+    image: nhsmHelperPreview,
+    images: [nhsmHelper1],
+    link: "https://nhsm-helper.netlify.app/"
+  },
+  { 
+    id: "carpooling-app",
+    title: "Carpooling App", 
+    role: "Front-End Dev · Mobile",
+    category: "Mobile",
+    status: "Finished",
+    type: "University",
+    accent: { color: "#22C55E", glow: "rgba(34,197,94,0.2)", label: "Mobile", sweep: "from-green-500/30 to-emerald-400/10" },
+    desc: [
+      "Responsive UI for trip and booking management",
+      "Mobile-first UX with React Native & Expo"
+    ],
+    tags: ["React Native", "Expo", "JavaScript"],
+    gradient: "from-green-500/25 to-emerald-500/10",
+    image: carpoolingPreview,
+    link: "https://github.com/KettabAya/Carpooling-App"
+  },
+  { 
+    id: "geriaasafe",
+    title: "GériaSafe", 
+    role: "Front-End Dev · Web",
+    category: "Front-End",
+    status: "Finished",
+    type: "University",
+    accent: { color: "#818CF8", glow: "rgba(129,140,248,0.25)", label: "Front-End", sweep: "from-indigo-500/30 to-violet-400/10" },
+    desc: [
+      "Interactive senior care prescription guide",
+      "Built for pharmacy students — accessible & structured"
+    ],
+    tags: ["HTML5", "CSS3", "JavaScript"],
+    gradient: "from-indigo-500/25 to-violet-500/10",
+    image: geriasafePreview,
+    images: [geriasafe1, geriasafe2, geriasafe3],
+    link: "https://geriasafe.netlify.app/"
+  }
+];
+
 function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<MainLayout />} />
+      <Route path="/project/:id" element={<ProjectDetails />} />
+    </Routes>
+  );
+}
+
+function MainLayout() {
   const [activeTab, setActiveTab] = useState('home');
   const mainRef = useRef(null);
   const cvRef = useRef(null);
@@ -89,15 +207,18 @@ function App() {
         className="absolute bottom-[-20%] right-[-10%] w-[400px] h-[400px] bg-[#4facfe] rounded-full opacity-[0.03] blur-[100px] pointer-events-none"
       />
 
-      {/* Floating Sidebar */}
-      <div className="absolute right-6 sm:right-10 top-1/2 -translate-y-1/2 z-50">
-        <aside className="relative flex flex-col items-center w-[56px] bg-[#0A1019]/90 backdrop-blur-xl rounded-full py-5 shadow-[0_0_30px_rgba(0,209,255,0.08)] border border-white/[0.06]">
+      {/* Tech Grid Background overlay for high-tech premium feel */}
+      <div className="grid-bg" />
+
+      {/* Floating Navbar */}
+      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50">
+        <aside className="relative flex flex-row items-center h-14 bg-[#0A1019]/90 backdrop-blur-xl rounded-full px-2 gap-2 shadow-[0_0_30px_rgba(0,209,255,0.08)] border border-white/[0.06]">
           {/* Sliding indicator */}
           <motion.div 
-            className="absolute w-[40px] h-[40px] bg-[#00D1FF] rounded-full shadow-[0_0_20px_rgba(0,209,255,0.6)]"
-            animate={{ top: `${20 + activeIndex * 48}px` }}
+            className="absolute w-10 h-10 bg-[#00D1FF] rounded-full shadow-[0_0_20px_rgba(0,209,255,0.6)]"
+            animate={{ left: `${8 + activeIndex * 48}px` }}
             transition={{ type: "spring", stiffness: 380, damping: 30 }}
-            style={{ left: '8px' }}
+            style={{ top: '8px' }}
           />
           {tabs.map((tab) => (
             <NavItem 
@@ -164,120 +285,7 @@ function App() {
               }}
             />
 
-            {/* TWINKLING DISTANT STARS */}
-            <div className="absolute inset-0 z-5">
-              {[...Array(30)].map((_, i) => {
-                const size = Math.random() * 1.8 + 0.6;
-                const top = Math.random() * 100;
-                const left = Math.random() * 100;
-                return (
-                  <motion.div
-                    key={`star-${i}`}
-                    className="absolute bg-white rounded-full pointer-events-none"
-                    style={{
-                      width: size,
-                      height: size,
-                      top: `${top}%`,
-                      left: `${left}%`,
-                      boxShadow: '0 0 4px rgba(255, 255, 255, 0.8)',
-                      opacity: Math.random() * 0.7 + 0.3
-                    }}
-                    animate={{
-                      opacity: [0.2, 1, 0.2],
-                      scale: [0.8, 1.2, 0.8]
-                    }}
-                    transition={{
-                      duration: Math.random() * 4 + 2,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: Math.random() * -4
-                    }}
-                  />
-                );
-              })}
-            </div>
-
-            {/* 3D STARFIELD FLYOUT (HYPERDRIVE EFFECT) */}
-            <div className="absolute inset-0 z-10">
-              {[...Array(32)].map((_, i) => {
-                const angle = Math.random() * 360; // Random angle in degrees
-                const radius = Math.random() * 600 + 350; // Random distance to fly out
-                const size = Math.random() * 2.5 + 1; // Star size
-                const duration = Math.random() * 2.5 + 1.8; // Flight duration
-                const delay = Math.random() * -5; // Negative delay for pre-warmed feel
-                
-                return (
-                  <motion.div
-                    key={`warp-star-${i}`}
-                    className="absolute bg-white rounded-full pointer-events-none"
-                    style={{
-                      width: size,
-                      height: size,
-                      top: '50%',
-                      left: '50%',
-                      transformOrigin: 'center center',
-                      boxShadow: '0 0 6px rgba(255, 255, 255, 0.95)',
-                    }}
-                    animate={{
-                      x: ['-50%', `calc(-50% + ${Math.cos(angle * Math.PI / 180) * radius}px)`],
-                      y: ['-50%', `calc(-50% + ${Math.sin(angle * Math.PI / 180) * radius}px)`],
-                      scale: [0, 1.8, 3.5],
-                      opacity: [0, 1, 1, 0]
-                    }}
-                    transition={{
-                      duration: duration,
-                      repeat: Infinity,
-                      ease: "easeIn",
-                      delay: delay
-                    }}
-                  />
-                );
-              })}
-            </div>
-
-            {/* HYPERDRIVE WARP STREAKS */}
-            <div className="absolute inset-0 z-10">
-              {[...Array(12)].map((_, i) => {
-                const angle = Math.random() * 360;
-                const radius = Math.random() * 700 + 400;
-                const width = Math.random() * 70 + 40; // Length of the streak
-                const height = Math.random() * 1.5 + 0.6; // Thickness of the streak
-                const duration = Math.random() * 1.8 + 1.2;
-                const delay = Math.random() * -3;
-                
-                const cosVal = Math.cos(angle * Math.PI / 180);
-                const sinVal = Math.sin(angle * Math.PI / 180);
-
-                return (
-                  <motion.div
-                    key={`warp-streak-${i}`}
-                    className="absolute bg-gradient-to-r from-transparent via-[#00D1FF] to-[#ffffff] pointer-events-none origin-left"
-                    style={{
-                      width: width,
-                      height: height,
-                      top: '50%',
-                      left: '50%',
-                      rotate: `${angle}deg`,
-                      x: '-50%',
-                      y: '-50%',
-                      filter: 'drop-shadow(0 0 3px rgba(0, 209, 255, 0.6))',
-                    }}
-                    animate={{
-                      x: ['-50%', `calc(-50% + ${cosVal * radius}px)`],
-                      y: ['-50%', `calc(-50% + ${sinVal * radius}px)`],
-                      scaleX: [0.1, 2.5, 0.5],
-                      opacity: [0, 0.8, 1, 0]
-                    }}
-                    transition={{
-                      duration: duration,
-                      repeat: Infinity,
-                      ease: "easeIn",
-                      delay: delay
-                    }}
-                  />
-                );
-              })}
-            </div>
+            {/* Background stars and warp effects removed */}
             
             {/* Ambient gradients to blend with theme */}
             <div className="absolute top-0 left-0 w-full h-[30%] bg-gradient-to-b from-[#0B1120] to-transparent z-20"></div>
@@ -287,24 +295,31 @@ function App() {
 
           <HeroSection onViewWork={() => scrollToSection('portfolio')} cvRef={cvRef} />
           {/* Scroll indicator */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce pointer-events-none z-30">
-            <FiChevronDown size={20} className="text-slate-500" />
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none z-30">
+            <span className="text-[10px] text-slate-500 uppercase tracking-widest mb-3 font-semibold">Scroll</span>
+            <div className="w-[1px] h-12 bg-white/10 relative overflow-hidden">
+              <motion.div 
+                className="w-full h-1/2 bg-[#00D1FF]"
+                animate={{ y: ["-100%", "200%"] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+              />
+            </div>
           </div>
         </section>
         
-        <section id="about" className="h-full w-full snap-start flex items-center justify-center shrink-0">
+        <section id="about" className="min-h-full py-24 w-full snap-start flex items-center justify-center shrink-0">
           <AboutSection />
         </section>
         
-        <section id="portfolio" className="h-full w-full snap-start flex items-center justify-center shrink-0">
+        <section id="portfolio" className="min-h-full py-24 w-full snap-start flex items-center justify-center shrink-0">
           <PortfolioSection />
         </section>
 
-        <section id="skills" className="h-full w-full snap-start flex items-center justify-center shrink-0">
+        <section id="skills" className="min-h-full py-24 w-full snap-start flex items-center justify-center shrink-0">
           <SkillsSection />
         </section>
 
-        <section id="contact" className="h-full w-full snap-start flex items-center justify-center shrink-0">
+        <section id="contact" className="min-h-full py-24 w-full snap-start flex items-center justify-center shrink-0">
           <ContactSection />
         </section>
       </main>
@@ -333,9 +348,9 @@ function NavItem({ icon, id, active, onClick }) {
   return (
     <motion.button
       onClick={() => onClick(id)}
-      whileHover={{ scale: 1.25 }}
+      whileHover={{ scale: 1.2 }}
       whileTap={{ scale: 0.9 }}
-      className="relative p-[10px] my-1 flex items-center justify-center group outline-none cursor-pointer z-10"
+      className="relative w-10 h-10 flex items-center justify-center group outline-none cursor-pointer z-10"
       aria-label={`Navigate to ${id}`}
     >
       <div className={`relative z-10 transition-all duration-300 ${active ? 'text-white scale-110' : 'text-slate-500 group-hover:text-slate-300'}`}>
@@ -378,75 +393,106 @@ function HeroSection({ onViewWork, cvRef }) {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.18,
-        delayChildren: 0.1
-      }
+      transition: { staggerChildren: 0.18, delayChildren: 0.1 }
     }
   };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { type: "spring", stiffness: 100, damping: 18 }
-    }
+    visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 18 } }
   };
+
+  // Particles generator
+  const [particles] = useState(() => 
+    Array.from({ length: 15 }).map((_, i) => ({
+      id: i,
+      left: Math.random() * 100 + "%",
+      top: Math.random() * 100 + "%",
+      size: Math.random() * 3 + 2 + "px",
+      duration: Math.random() * 10 + 10,
+      delay: Math.random() * 5
+    }))
+  );
 
   return (
     <motion.div 
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="flex flex-col items-center text-center w-full max-w-2xl px-8 pr-24 relative z-10"
+      className="flex flex-col items-center text-center w-full max-w-3xl px-8 py-16 relative z-10"
     >
-      {/* Glow behind avatar */}
+      {/* Grid Background */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:30px_30px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_10%,transparent_100%)] pointer-events-none -z-10"></div>
+
+      {/* Floating Particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10 [mask-image:radial-gradient(circle_at_center,black_40%,transparent_100%)]">
+        {particles.map(p => (
+          <motion.div
+            key={p.id}
+            className="absolute rounded-full bg-[#00D1FF]"
+            style={{ left: p.left, top: p.top, width: p.size, height: p.size, opacity: 0 }}
+            animate={{ 
+              y: [0, -150],
+              opacity: [0, 0.6, 0]
+            }}
+            transition={{ 
+              duration: p.duration, 
+              repeat: Infinity, 
+              ease: "linear",
+              delay: p.delay
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Corner Brackets */}
+      <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-[#00D1FF]/40 rounded-tl-lg pointer-events-none"></div>
+      <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-[#00D1FF]/40 rounded-tr-lg pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-[#00D1FF]/40 rounded-bl-lg pointer-events-none"></div>
+      <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-[#00D1FF]/40 rounded-br-lg pointer-events-none"></div>
+
+      {/* Glow behind center */}
       <motion.div 
         animate={{ 
           scale: [1, 1.15, 1],
-          opacity: [0.12, 0.18, 0.12]
+          opacity: [0.1, 0.15, 0.1]
         }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-        className="absolute top-[10%] left-1/2 -translate-x-[60%] w-[350px] h-[350px] bg-[#00D1FF] rounded-full opacity-[0.12] blur-[80px] pointer-events-none"
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-[#00D1FF] rounded-full opacity-[0.1] blur-[100px] pointer-events-none -z-10"
       />
-      
-      <motion.div variants={itemVariants} className="relative mb-8">
-        {/* RK initials avatar with gentle pulse/float */}
-        <motion.div 
-          animate={{ y: [0, -6, 0] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          className="relative w-32 h-32 rounded-full bg-gradient-to-br from-[#00D1FF] to-[#4facfe] flex items-center justify-center shadow-[0_0_40px_rgba(0,209,255,0.3)] hover:shadow-[0_0_50px_rgba(0,209,255,0.5)] transition-all duration-300 cursor-pointer"
-        >
-          <span className="text-4xl font-bold text-white tracking-wider">RK</span>
-        </motion.div>
-        {/* Online indicator */}
-        <div className="absolute bottom-2 right-2 w-4 h-4 bg-emerald-400 rounded-full border-2 border-[#0B1120] shadow-[0_0_8px_rgba(52,211,153,0.6)]"></div>
+
+      {/* Pulsing 'Available' badge */}
+      <motion.div variants={itemVariants} className="flex items-center gap-2 mb-6 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)] backdrop-blur-sm">
+        <div className="relative flex h-2 w-2">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+        </div>
+        <span className="text-[10px] font-bold text-emerald-400 tracking-widest uppercase">Available for work</span>
       </motion.div>
 
-      <motion.h1 variants={itemVariants} className="text-5xl font-bold text-white mb-3 tracking-tight">
-        Rania <span className="text-[#00D1FF] text-glow">Keghouche</span>
+      {/* Title with outlined name */}
+      <motion.h1 variants={itemVariants} className="text-5xl md:text-7xl font-extrabold text-white mb-4 tracking-tight">
+        Rania <span className="text-transparent" style={{ WebkitTextStroke: "1.5px #00D1FF", WebkitTextFillColor: "transparent" }}>Keghouche</span>
       </motion.h1>
       
-      <motion.h2 variants={itemVariants} className="text-lg text-slate-300 font-light mb-4 flex items-center justify-center gap-0 h-8">
+      {/* Typewriter Effect */}
+      <motion.h2 variants={itemVariants} className="text-xl md:text-2xl text-slate-300 font-light mb-8 flex items-center justify-center gap-0 h-8">
         <span>{displayText}</span>
-        <span className="inline-block w-[2px] h-6 bg-[#00D1FF] ml-0.5 animate-pulse"></span>
+        <span className="inline-block w-[3px] h-7 bg-[#00D1FF] ml-1 animate-pulse"></span>
       </motion.h2>
       
+      {/* Description */}
       <motion.p variants={itemVariants} className="text-slate-400 text-sm md:text-base max-w-xl leading-relaxed mb-10">
         Fast learner who picks up any new stack quickly and delivers. Technical reference on team projects — passionate about building clean, scalable systems from APIs to mobile interfaces.
       </motion.p>
       
+      {/* Buttons */}
       <motion.div variants={itemVariants} className="flex space-x-4">
         <motion.button 
           onClick={onViewWork}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="px-8 py-2.5 bg-[#00D1FF] hover:bg-[#00b8e6] text-white text-sm font-medium rounded-full transition-all cursor-pointer active:scale-95 hover:shadow-[0_0_20px_rgba(0,209,255,0.4)]"
+          className="px-8 py-3 bg-[#00D1FF] hover:bg-[#00b8e6] text-[#0B1120] text-sm font-bold tracking-wide rounded-full transition-all cursor-pointer shadow-[0_0_20px_rgba(0,209,255,0.3)]"
         >
           View My Work
         </motion.button>
@@ -454,7 +500,6 @@ function HeroSection({ onViewWork, cvRef }) {
           whileHover={{ scale: 1.05, borderColor: "rgba(0, 209, 255, 0.4)", backgroundColor: "rgba(255,255,255,0.05)", boxShadow: "0 0 20px rgba(0, 209, 255, 0.2)" }}
           whileTap={{ scale: 0.95 }}
           onClick={async () => {
-            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#00D1FF', '#4facfe', '#ffffff'] });
             if (cvRef && cvRef.current) {
               const html2pdf = (await import('html2pdf.js')).default;
               const opt = {
@@ -467,7 +512,7 @@ function HeroSection({ onViewWork, cvRef }) {
               html2pdf().set(opt).from(cvRef.current).save();
             }
           }}
-          className="px-8 py-2.5 bg-white/[0.05] border border-white/10 text-white text-sm font-medium rounded-full transition-all cursor-pointer active:scale-95 relative overflow-hidden group"
+          className="px-8 py-3 bg-white/[0.05] border border-white/10 text-white text-sm font-medium rounded-full transition-all cursor-pointer relative overflow-hidden group"
         >
           <span className="relative z-10">Download CV</span>
           <motion.div 
@@ -502,86 +547,115 @@ function AboutSection() {
       whileInView="visible"
       viewport={{ once: false, amount: 0.2 }}
       variants={containerVariants}
-      className="w-full max-w-[1050px] flex flex-col md:flex-row items-start justify-between px-8 pr-28 gap-12 relative"
+      className="w-full max-w-[1050px] flex flex-col md:flex-row items-start justify-between px-8 gap-8 relative"
     >
       
-      {/* Left: Profile & Education */}
+      {/* Left: Profile & Contact */}
       <motion.div variants={leftVariants} className="w-full md:w-[48%]">
-        <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">
-          About <span className="text-[#00D1FF]">Me</span>
-        </h2>
-        <motion.div 
-          initial={{ width: 0 }}
-          whileInView={{ width: 48 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="h-1 bg-[#00D1FF] rounded-full mb-5" 
-        />
+        {/* Header row */}
+        <div className="flex items-center gap-4 mb-5">
+          <div className="relative shrink-0">
+            <div className="w-12 h-12 rounded-full bg-[#0B1120] border-2 border-[#00D1FF]/40 flex items-center justify-center shadow-[0_0_15px_rgba(0,209,255,0.2)]">
+              <span className="text-sm font-bold text-[#00D1FF] tracking-tighter">RK</span>
+            </div>
+            <div className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 rounded-full border-2 border-[#0B1120]"></div>
+          </div>
+          <h2 className="text-4xl font-black tracking-tighter text-white uppercase leading-none">
+            About <span className="text-transparent" style={{ WebkitTextStroke: "1.5px #00D1FF", WebkitTextFillColor: "transparent" }}>Me</span>
+          </h2>
+        </div>
         
-        <p className="text-slate-400 text-[13px] leading-relaxed mb-6">
-          Engineering student at ESTIN with a strong full-stack foundation and a drive for ownership. I have led technical projects end-to-end as team referent, built backend architectures, and shipped mobile UIs. I adapt fast to new technologies and consistently deliver under pressure — whether solo or as the team's go-to technical reference.
-        </p>
+        {/* Quote */}
+        <div className="relative pl-4 border-l-2 border-[#00D1FF]/40 mb-5">
+          <p className="text-slate-400 text-[11.5px] leading-relaxed italic">
+            Engineering student at ESTIN. Full-stack foundation, end-to-end project ownership, backend architectures &amp; mobile UIs. Fast adapter who delivers under pressure.
+          </p>
+        </div>
 
-        {/* Contact Info */}
-        <div className="grid grid-cols-1 gap-2.5 mb-6">
-          <InfoItem icon={<FiMapPin size={14} />} label="Location" value="Constantine, Algeria" href="https://www.google.com/maps/place/Constantine,+Algeria" />
-          <InfoItem icon={<FiMail size={14} />} label="Email" value="r_keghouche@estin.dz" href="https://mail.google.com/mail/?view=cm&fs=1&to=r_keghouche@estin.dz" />
-          <InfoItem icon={<FiPhone size={14} />} label="Phone" value="+213 783 244 796" href="tel:+213783244796" />
-          <InfoItem icon={<FiGithub size={14} />} label="GitHub" value="github.com/rania-keghouche" href="https://github.com/rania-keghouche" />
+        {/* Contact Info — 2 column grid */}
+        <div className="grid grid-cols-2 gap-2 mb-5">
+          <InfoItem icon={<FiMapPin size={12} />} label="Location" value="Constantine, DZ" href="https://www.google.com/maps/place/Constantine,+Algeria" />
+          <InfoItem icon={<FiMail size={12} />} label="Email" value="r_keghouche@estin.dz" href="https://mail.google.com/mail/?view=cm&fs=1&to=r_keghouche@estin.dz" />
+          <InfoItem icon={<FiPhone size={12} />} label="Phone" value="+213 783 244 796" href="tel:+213783244796" />
+          <InfoItem icon={<FiGithub size={12} />} label="GitHub" value="rania-keghouche" href="https://github.com/rania-keghouche" />
         </div>
 
         {/* Languages */}
-        <h3 className="text-xs font-semibold text-[#00D1FF] uppercase tracking-[0.15em] mb-3">Languages</h3>
-        <div className="space-y-2 mb-4">
-          <LangBar name="Arabic" level={5} />
-          <LangBar name="French" level={4} />
-          <LangBar name="English" level={3} />
+        <h3 className="text-[10px] font-bold text-[#00D1FF] uppercase tracking-[0.2em] mb-3">Languages</h3>
+        <div className="space-y-2.5 mb-5">
+          <LangBar name="Arabic" percentage={100} />
+          <LangBar name="French" percentage={80} />
+          <LangBar name="English" percentage={65} />
+        </div>
+
+        {/* Stats Bar */}
+        <div className="flex items-center gap-5 pt-4 border-t border-white/[0.06]">
+          <div className="flex flex-col">
+            <span className="text-2xl font-black text-white">5<span className="text-[#00D1FF]">+</span></span>
+            <span className="text-[8px] text-slate-500 uppercase tracking-widest font-bold">Projects</span>
+          </div>
+          <div className="w-px h-8 bg-white/[0.06]"></div>
+          <div className="flex flex-col">
+            <span className="text-2xl font-black text-white">2</span>
+            <span className="text-[8px] text-slate-500 uppercase tracking-widest font-bold">Yrs Exp.</span>
+          </div>
+          <div className="w-px h-8 bg-white/[0.06]"></div>
+          <div className="flex flex-col">
+            <span className="text-2xl font-black text-transparent" style={{ WebkitTextStroke: "1px #00D1FF", WebkitTextFillColor: "transparent" }}>∞</span>
+            <span className="text-[8px] text-slate-500 uppercase tracking-widest font-bold">Lines of Code</span>
+          </div>
         </div>
       </motion.div>
 
       {/* Right: Education & Soft Skills */}
       <motion.div variants={rightVariants} className="w-full md:w-[48%]">
-        {/* Education */}
-        <h3 className="text-xs font-semibold text-[#00D1FF] uppercase tracking-[0.15em] mb-4 flex items-center gap-2">
-          <FaGraduationCap size={14} /> Education
-        </h3>
-        <div className="space-y-4 mb-8">
-          <EduItem 
-            school="ESTIN, Bejaia" 
-            degree="1st Year Graduate Cycle — Software Engineering" 
-            date="Sept 2025 – Present" 
-            current
-          />
-          <EduItem 
-            school="ESTIN, Bejaia" 
-            degree="Preparatory Cycle" 
-            date="Sept 2023 – Jun 2025" 
-          />
-          <EduItem 
-            school="Lycée Saadi Taher Harath" 
-            degree="Baccalauréat Maths — Mention Très Bien" 
-            date="2023" 
-          />
-        </div>
+        <div className="bg-[#0B1120]/60 border border-white/[0.05] p-6 rounded-2xl hover:border-[#00D1FF]/20 transition-all duration-500 shadow-[0_8px_30px_rgba(0,0,0,0.2)] backdrop-blur-sm relative overflow-hidden group h-full">
+          <div className="absolute top-0 right-0 w-48 h-48 bg-[#00D1FF] opacity-[0.02] blur-[60px] group-hover:opacity-[0.05] transition-opacity duration-700 pointer-events-none"></div>
 
-        {/* Soft Skills */}
-        <h3 className="text-xs font-semibold text-[#00D1FF] uppercase tracking-[0.15em] mb-4">Soft Skills</h3>
-        <div className="flex flex-wrap gap-2.5">
-          {[
-            { icon: <FaPuzzlePiece className="text-[#00D1FF]" size={12} />, text: 'Problem Solving & Algorithms' },
-            { icon: <FaFire className="text-[#00D1FF]" size={12} />, text: 'Autonomy & Ownership' },
-            { icon: <FaHandshake className="text-[#00D1FF]" size={12} />, text: 'Team Collaboration' },
-            { icon: <FiClock className="text-[#00D1FF]" size={12} />, text: 'Delivery Under Pressure' },
-            { icon: <FiFileText className="text-[#00D1FF]" size={12} />, text: 'Clear Communication & Docs' }
-          ].map((skill, index) => (
-            <motion.span 
-              whileHover={{ scale: 1.05, y: -2 }}
-              key={index} 
-              className="flex items-center gap-2 px-3 py-1.5 bg-[#111827]/80 border border-white/[0.06] rounded-lg text-[11px] text-slate-300 hover:border-[#00D1FF]/40 hover:shadow-[0_0_15px_rgba(0,209,255,0.2)] transition-all cursor-default"
-            >
-              {skill.icon}
-              <span>{skill.text}</span>
-            </motion.span>
-          ))}
+          {/* Education */}
+          <h3 className="text-[10px] font-bold text-[#00D1FF] uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
+            <FaGraduationCap size={12} /> Education Timeline
+          </h3>
+          <div className="space-y-3 mb-6 relative">
+            <div className="absolute left-[3px] top-2 bottom-2 w-[1px] bg-gradient-to-b from-[#00D1FF]/40 via-white/10 to-transparent"></div>
+            <EduItem 
+              school="ESTIN, Bejaia" 
+              degree="1st Year Graduate Cycle — Software Engineering" 
+              date="Sept 2025 – Present" 
+              current
+            />
+            <EduItem 
+              school="ESTIN, Bejaia" 
+              degree="Preparatory Cycle" 
+              date="Sept 2023 – Jun 2025" 
+            />
+            <EduItem 
+              school="Lycée Saadi Taher Harath" 
+              degree="Baccalauréat Maths — Mention Très Bien" 
+              date="2023" 
+            />
+          </div>
+
+          {/* Soft Skills */}
+          <h3 className="text-[10px] font-bold text-[#00D1FF] uppercase tracking-[0.2em] mb-3">Core Competencies</h3>
+          <div className="flex flex-wrap gap-2">
+            {[
+              { icon: <FaPuzzlePiece className="text-[#00D1FF]" size={10} />, text: 'Problem Solving' },
+              { icon: <FaFire className="text-[#00D1FF]" size={10} />, text: 'Autonomy & Ownership' },
+              { icon: <FaHandshake className="text-[#00D1FF]" size={10} />, text: 'Team Collaboration' },
+              { icon: <FiClock className="text-[#00D1FF]" size={10} />, text: 'Under Pressure' },
+              { icon: <FiFileText className="text-[#00D1FF]" size={10} />, text: 'Communication' }
+            ].map((skill, index) => (
+              <motion.span 
+                whileHover={{ scale: 1.05, y: -1 }}
+                key={index} 
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.02] border border-white/[0.08] rounded-full text-[10px] text-slate-300 hover:border-[#00D1FF] hover:bg-[#00D1FF]/10 hover:text-white hover:shadow-[0_0_15px_rgba(0,209,255,0.2)] transition-all cursor-default group/skill"
+              >
+                <div className="group-hover/skill:scale-110 transition-transform duration-300">{skill.icon}</div>
+                <span className="font-medium tracking-wide">{skill.text}</span>
+              </motion.span>
+            ))}
+          </div>
         </div>
       </motion.div>
     </motion.div>
@@ -591,34 +665,54 @@ function AboutSection() {
 function InfoItem({ icon, label, value, href }) {
   const content = (
     <>
-      <div className="w-7 h-7 rounded-lg bg-[#00D1FF]/[0.08] border border-[#00D1FF]/10 flex items-center justify-center text-[#00D1FF] group-hover:bg-[#00D1FF]/[0.15] transition-all shrink-0">
+      <div className="relative z-10 w-7 h-7 rounded-lg bg-[#00D1FF]/10 border border-[#00D1FF]/20 flex items-center justify-center text-[#00D1FF] group-hover:bg-[#00D1FF] group-hover:text-[#0B1120] transition-all duration-300 shrink-0">
         {icon}
       </div>
-      <div className="flex items-center gap-1.5">
-        <span className="text-slate-500 text-[11px]">{label}:</span>
-        <span className="text-white text-[12px] font-medium group-hover:text-[#00D1FF] transition-colors">{value}</span>
+      <div className="relative z-10 flex flex-col justify-center gap-0 w-full overflow-hidden">
+        <span className="text-slate-500 text-[8px] font-bold uppercase tracking-[0.12em]">{label}</span>
+        <span className="text-white text-[10.5px] font-medium truncate group-hover:text-[#00D1FF] transition-colors">
+          {value}
+        </span>
       </div>
+      {href && (
+        <span className="relative z-10 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-[#00D1FF] text-base leading-none shrink-0">→</span>
+      )}
     </>
   );
 
+  const wrapperClasses = "relative flex items-center gap-2.5 p-2 rounded-xl overflow-hidden group w-full border border-white/[0.04] bg-[#0B1120]/30 transition-all duration-300";
+  const hoverSweep = <div className="absolute inset-0 bg-gradient-to-r from-[#00D1FF]/15 to-transparent -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out z-0"></div>;
+
   if (href) {
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 group cursor-pointer">
+      <a href={href} target="_blank" rel="noopener noreferrer" className={`${wrapperClasses} hover:border-[#00D1FF]/30 cursor-pointer hover:shadow-[0_2px_12px_rgba(0,209,255,0.08)]`}>
+        {hoverSweep}
         {content}
       </a>
     );
   }
-  return <div className="flex items-center gap-3 group">{content}</div>;
+  return (
+    <div className={wrapperClasses}>
+      {hoverSweep}
+      {content}
+    </div>
+  );
 }
 
-function LangBar({ name, level }) {
+function LangBar({ name, percentage }) {
   return (
-    <div className="flex items-center gap-3">
-      <span className="text-[11px] text-slate-300 w-14">{name}</span>
-      <div className="flex gap-1">
-        {[1,2,3,4,5].map(i => (
-          <div key={i} className={`w-2 h-2 rounded-full ${i <= level ? 'bg-[#00D1FF] shadow-[0_0_4px_rgba(0,209,255,0.5)]' : 'bg-slate-700'}`}></div>
-        ))}
+    <div>
+      <div className="flex justify-between items-center mb-1">
+        <span className="text-[9.5px] font-bold text-slate-300 uppercase tracking-widest">{name}</span>
+        <span className="text-[9.5px] text-[#00D1FF] font-bold">{percentage}%</span>
+      </div>
+      <div className="w-full h-1 bg-white/[0.04] rounded-full overflow-hidden">
+        <motion.div 
+          initial={{ width: 0 }}
+          whileInView={{ width: `${percentage}%` }}
+          transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+          className="h-full bg-gradient-to-r from-[#00D1FF]/50 to-[#00D1FF] rounded-full"
+        />
       </div>
     </div>
   );
@@ -626,12 +720,23 @@ function LangBar({ name, level }) {
 
 function EduItem({ school, degree, date, current }) {
   return (
-    <div className="relative pl-4 border-l-2 border-[#00D1FF]/30">
-      {current && <div className="absolute left-[-5px] top-1 w-2 h-2 rounded-full bg-[#00D1FF] shadow-[0_0_6px_rgba(0,209,255,0.6)]"></div>}
-      {!current && <div className="absolute left-[-5px] top-1 w-2 h-2 rounded-full bg-slate-600"></div>}
-      <h4 className="text-white text-sm font-semibold">{school}</h4>
-      <p className="text-slate-400 text-[11px]">{degree}</p>
-      <p className={`text-[10px] mt-0.5 ${current ? 'text-[#00D1FF]' : 'text-[#00D1FF]/60'}`}>{date}</p>
+    <div className={`relative pl-6 py-1.5 group transition-all duration-300 ${!current ? 'opacity-55 hover:opacity-100' : ''}`}>
+      <div className="absolute left-[0.5px] top-3 -translate-x-1/2 flex items-center justify-center">
+        {current ? (
+          <>
+            <span className="absolute animate-ping w-3 h-3 rounded-full bg-[#00D1FF] opacity-50"></span>
+            <div className="w-2.5 h-2.5 rounded-full bg-[#00D1FF] shadow-[0_0_10px_rgba(0,209,255,1)] ring-4 ring-[#00D1FF]/20 relative z-10"></div>
+          </>
+        ) : (
+          <div className="w-2 h-2 rounded-full bg-[#0B1120] border-2 border-slate-600 group-hover:border-[#00D1FF]/80 relative z-10 transition-colors"></div>
+        )}
+      </div>
+      <div className="flex items-center gap-2 mb-0.5">
+        <h4 className={`text-[11.5px] font-bold ${current ? 'text-white' : 'text-slate-300'} group-hover:text-[#00D1FF] transition-colors`}>{school}</h4>
+        {current && <span className="px-1.5 py-0.5 rounded text-[8px] font-bold bg-[#00D1FF]/10 text-[#00D1FF] border border-[#00D1FF]/20 uppercase tracking-wider">Current</span>}
+      </div>
+      <p className="text-slate-400 text-[10.5px] leading-relaxed">{degree}</p>
+      <p className={`text-[9px] font-bold tracking-widest uppercase mt-0.5 ${current ? 'text-[#00D1FF]' : 'text-slate-600'}`}>{date}</p>
     </div>
   );
 }
@@ -641,93 +746,199 @@ function SkillsSection() {
   const skillCategories = [
     {
       title: 'Languages',
-      icon: <FiCode size={16} />,
-      skills: ['TypeScript', 'JavaScript', 'Python', 'C', 'Java', 'Assembly']
+      icon: <FiCode size={14} />,
+      accent: '#60A5FA',          // Royal Blue
+      glow: 'rgba(96,165,250,0.18)',
+      skills: ['TypeScript', 'JavaScript', 'Python', 'C', 'Java', 'Assembly'],
+      proficiency: [92, 88, 80]
     },
     {
       title: 'Back-End',
-      icon: <FiServer size={16} />,
-      skills: ['Node.js', 'Express.js', 'FastAPI', 'Django', 'JWT Auth', 'REST API Design']
+      icon: <FiServer size={14} />,
+      accent: '#2DD4BF',          // Teal
+      glow: 'rgba(45,212,191,0.18)',
+      skills: ['Node.js', 'Express.js', 'FastAPI', 'Django', 'JWT Auth', 'REST API'],
+      proficiency: [85, 82, 78]
     },
     {
       title: 'Front-End',
-      icon: <FaPalette size={16} />,
-      skills: ['React.js', 'React Native', 'Vue.js', 'Tailwind CSS', 'Expo', 'HTML5', 'CSS3']
+      icon: <FaPalette size={14} />,
+      accent: '#4ADE80',          // Lime Green
+      glow: 'rgba(74,222,128,0.18)',
+      skills: ['React.js', 'React Native', 'Vue.js', 'Tailwind CSS', 'Expo', 'HTML5', 'CSS3'],
+      proficiency: [88, 82, 75]
     },
     {
       title: 'Databases',
-      icon: <FiDatabase size={16} />,
-      skills: ['PostgreSQL', 'MongoDB', 'SQL', 'Schema Modelling']
+      icon: <FiDatabase size={14} />,
+      accent: '#A78BFA',          // Soft Violet
+      glow: 'rgba(167,139,250,0.18)',
+      skills: ['PostgreSQL', 'MongoDB', 'SQL', 'Schema Modelling'],
+      proficiency: [80, 75, 70]
     },
     {
       title: 'DevOps & Tools',
-      icon: <FiLayers size={16} />,
-      skills: ['Docker', 'Git/GitHub', 'Linux', 'Postman', 'VS Code', 'npm']
+      icon: <FiLayers size={14} />,
+      accent: '#FB923C',          // Warm Orange
+      glow: 'rgba(251,146,60,0.18)',
+      skills: ['Docker', 'Git/GitHub', 'Linux', 'Postman', 'VS Code', 'npm'],
+      proficiency: [78, 90, 85]
     },
     {
       title: 'AI Tools',
-      icon: <FiGlobe size={16} />,
-      skills: ['Copilot', 'Claude', 'Cursor', 'Prompt Engineering', 'LLM Integration']
+      icon: <FiGlobe size={14} />,
+      accent: '#F472B6',          // Fuchsia Pink
+      glow: 'rgba(244,114,182,0.18)',
+      skills: ['Copilot', 'Claude', 'Cursor', 'Prompt Engineering', 'LLM Integration'],
+      proficiency: [85, 80, 75]
     }
   ];
 
+  // Marquee: flatten all skills
+  const allSkills = skillCategories.flatMap(c => c.skills.map(s => ({ skill: s, accent: c.accent })));
+  const marqueeItems = [...allSkills, ...allSkills]; // duplicate for seamless loop
+
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
   };
   const headerVariants = {
     hidden: { opacity: 0, y: -20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
   };
   const cardVariants = {
-    hidden: { opacity: 0, scale: 0.9, y: 30 },
-    visible: { opacity: 1, scale: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 15 } }
+    hidden: { opacity: 0, scale: 0.92, y: 24 },
+    visible: { opacity: 1, scale: 1, y: 0, transition: { type: 'spring', stiffness: 110, damping: 16 } }
   };
 
+  const proficiencyLabels = ['Expert', 'Advanced', 'Proficient'];
+
   return (
-    <motion.div 
+    <motion.div
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: false, amount: 0.2 }}
+      viewport={{ once: false, amount: 0.15 }}
       variants={containerVariants}
-      className="w-full max-w-[1050px] flex flex-col items-center px-8 pr-28 relative"
+      className="w-full max-w-[1050px] flex flex-col items-center px-8 relative"
     >
-      <motion.div variants={headerVariants} className="text-center mb-8">
+      {/* Header */}
+      <motion.div variants={headerVariants} className="text-center mb-5">
         <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">
           Tech <span className="text-[#00D1FF]">Skills</span>
         </h2>
-        <motion.div 
-          initial={{ width: 0 }}
-          whileInView={{ width: 48 }}
+        <motion.div
+          initial={{ width: 0 }} whileInView={{ width: 48 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="h-1 bg-[#00D1FF] rounded-full mx-auto mb-3" 
+          className="h-1 bg-[#00D1FF] rounded-full mx-auto mb-2"
         />
         <p className="text-slate-400 text-sm">My technical toolkit across the full stack</p>
       </motion.div>
 
+      {/* Marquee strip */}
+      <motion.div variants={headerVariants} className="w-full overflow-hidden mb-6 relative">
+        {/* Fade edges */}
+        <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-[#060d1a] to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[#060d1a] to-transparent z-10 pointer-events-none" />
+        <div
+          className="flex gap-3 w-max"
+          style={{ animation: 'marquee 28s linear infinite' }}
+        >
+          {marqueeItems.map((item, i) => (
+            <span
+              key={i}
+              className="px-3 py-1 rounded-full text-[9.5px] font-bold uppercase tracking-widest whitespace-nowrap border"
+              style={{
+                color: item.accent,
+                background: `${item.accent}12`,
+                borderColor: `${item.accent}30`
+              }}
+            >
+              {item.skill}
+            </span>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 w-full">
-        {skillCategories.map((cat) => (
-          <motion.div 
+        {skillCategories.map((cat, catIdx) => (
+          <motion.div
             variants={cardVariants}
-            whileHover={{ y: -5, scale: 1.02, boxShadow: "0 10px 30px -10px rgba(0,209,255,0.15)" }}
-            key={cat.title} 
-            className="bg-[#111827]/60 backdrop-blur-sm border border-white/[0.06] rounded-2xl p-5 hover:border-[#00D1FF]/40 transition-all duration-300 group"
+            key={cat.title}
+            className="relative rounded-2xl p-4 border border-white/[0.05] bg-[#0B1120]/70 overflow-hidden group transition-all duration-500"
+            whileHover={{
+              boxShadow: `0 -8px 40px ${cat.glow}, 0 4px 20px rgba(0,0,0,0.3)`,
+              borderColor: `${cat.accent}35`
+            }}
           >
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-[#00D1FF]/[0.1] border border-[#00D1FF]/15 flex items-center justify-center text-[#00D1FF] group-hover:shadow-[0_0_12px_rgba(0,209,255,0.2)] transition-all">
-                {cat.icon}
-              </div>
-              <h3 className="text-xs font-semibold text-[#00D1FF] uppercase tracking-[0.1em]">{cat.title}</h3>
-            </div>
-            <div className="flex flex-wrap gap-1.5">
-              {cat.skills.map(skill => (
-                <motion.span 
-                  whileHover={{ scale: 1.05, backgroundColor: "rgba(0,209,255,0.1)" }}
-                  key={skill} 
-                  className="px-2.5 py-1 bg-[#0B1120]/60 border border-white/[0.06] rounded-lg text-[10px] text-slate-300 hover:border-[#00D1FF]/40 hover:text-white transition-all cursor-default"
+            {/* Radial glow from top on hover */}
+            <div
+              className="absolute -top-10 left-1/2 -translate-x-1/2 w-32 h-32 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+              style={{ background: cat.glow.replace('0.18', '0.35') }}
+            />
+
+            {/* Header row */}
+            <div className="relative z-10 flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <div
+                  className="w-7 h-7 rounded-lg flex items-center justify-center transition-all duration-300 group-hover:scale-110"
+                  style={{ color: cat.accent, background: `${cat.accent}15`, border: `1px solid ${cat.accent}30` }}
                 >
-                  {skill}
-                </motion.span>
+                  {cat.icon}
+                </div>
+                <h3 className="text-[10px] font-bold uppercase tracking-[0.12em]" style={{ color: cat.accent }}>
+                  {cat.title}
+                </h3>
+              </div>
+              {/* Count badge */}
+              <span
+                className="text-[9px] font-black tabular-nums px-1.5 py-0.5 rounded-md"
+                style={{ color: cat.accent, background: `${cat.accent}12`, border: `1px solid ${cat.accent}20` }}
+              >
+                {String(cat.skills.length).padStart(2, '0')}
+              </span>
+            </div>
+
+            {/* Top 3 proficiency bars */}
+            <div className="relative z-10 space-y-1.5 mb-3">
+              {cat.skills.slice(0, 3).map((skill, i) => (
+                <div key={skill}>
+                  <div className="flex justify-between items-center mb-0.5">
+                    <span className="text-[8.5px] text-slate-400 font-semibold">{skill}</span>
+                    <span className="text-[7.5px] font-bold" style={{ color: `${cat.accent}99` }}>{proficiencyLabels[i]}</span>
+                  </div>
+                  <div className="h-[3px] w-full rounded-full bg-white/[0.04]">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${cat.proficiency[i]}%` }}
+                      transition={{ duration: 0.9, delay: catIdx * 0.07 + i * 0.1, ease: 'easeOut' }}
+                      className="h-full rounded-full"
+                      style={{ background: `linear-gradient(90deg, ${cat.accent}60, ${cat.accent})` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Remaining skill pills with wipe hover effect */}
+            <div className="relative z-10 flex flex-wrap gap-1.5">
+              {cat.skills.slice(3).map(skill => (
+                <span
+                  key={skill}
+                  className="relative overflow-hidden px-2 py-0.5 rounded-md text-[9px] font-medium tracking-wide border cursor-default group/pill"
+                  style={{
+                    color: `${cat.accent}cc`,
+                    background: `${cat.accent}08`,
+                    borderColor: `${cat.accent}20`
+                  }}
+                >
+                  {/* Wipe fill from bottom */}
+                  <span
+                    className="absolute inset-0 translate-y-full group-hover/pill:translate-y-0 transition-transform duration-300 ease-out"
+                    style={{ background: `${cat.accent}22` }}
+                  />
+                  <span className="relative z-10 group-hover/pill:text-white transition-colors duration-200">{skill}</span>
+                </span>
               ))}
             </div>
           </motion.div>
@@ -739,71 +950,25 @@ function SkillsSection() {
 
 // ========== PORTFOLIO SECTION ==========
 function PortfolioSection() {
-  const projects = [
-    { 
-      title: "DZ-Fit", 
-      role: "Tech Lead · Back-End",
-      desc: [
-        "Led full technical cycle of a gym search platform",
-        "RESTful API for gym, slot & booking management",
-        "PostgreSQL geo-search optimization + Docker containerization"
-      ],
-      tags: ["Django", "FastAPI", "PostgreSQL", "Docker"],
-      gradient: "from-blue-500/20 to-cyan-500/20"
-    },
-    { 
-      title: "IoTopia", 
-      role: "Back-End Dev · Academic",
-      desc: [
-        "Backend for a gamified IoT learning platform",
-        "Quiz engine, user progression & secured API endpoints"
-      ],
-      tags: ["Node.js", "MongoDB", "JavaScript"],
-      gradient: "from-emerald-500/20 to-teal-500/20"
-    },
-    { 
-      title: "AI Study Chatbot", 
-      role: "AI Developer · Personal",
-      desc: [
-        "Llama3 LLM integration for interactive study assistance",
-        "Conversational UI tailored to learning workflows"
-      ],
-      tags: ["Python", "Llama3", "API Integration"],
-      gradient: "from-violet-500/20 to-purple-500/20"
-    },
-    { 
-      title: "Carpooling App", 
-      role: "Front-End Dev · Personal",
-      desc: [
-        "Responsive UI for trip and booking management",
-        "Focus on UX clarity and mobile-first performance"
-      ],
-      tags: ["React Native", "Expo", "JavaScript"],
-      gradient: "from-orange-500/20 to-amber-500/20"
-    },
-    { 
-      title: "Geriaasafe", 
-      role: "Front-End Dev · Personal",
-      desc: [
-        "Interactive senior care guide for pharmacy students",
-        "Structured, accessible informational content"
-      ],
-      tags: ["HTML5", "CSS3", "JavaScript"],
-      gradient: "from-pink-500/20 to-rose-500/20"
-    }
-  ];
+  const navigate = useNavigate();
+  const [activeFilter, setActiveFilter] = useState('All');
+  const filters = ['All', 'Back-End', 'Front-End', 'AI', 'Mobile'];
+
+  const filtered = activeFilter === 'All'
+    ? projectsData
+    : projectsData.filter(p => p.category === activeFilter);
 
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
   };
   const headerVariants = {
     hidden: { opacity: 0, y: -20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
   };
   const cardVariants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 90, damping: 14 } }
+    hidden: { opacity: 0, y: 30, scale: 0.96 },
+    visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 100, damping: 14 } }
   };
 
   return (
@@ -812,65 +977,140 @@ function PortfolioSection() {
       whileInView="visible"
       viewport={{ once: false, amount: 0.1 }}
       variants={containerVariants}
-      className="flex flex-col items-center w-full max-w-[1050px] px-8 pr-28"
+      className="flex flex-col items-center w-full max-w-[1200px] px-8"
     >
-      
       {/* Header */}
       <motion.div variants={headerVariants} className="text-center mb-6">
         <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">
           My <span className="text-[#00D1FF]">Projects</span>
         </h2>
         <motion.div 
-          initial={{ width: 0 }}
-          whileInView={{ width: 48 }}
+          initial={{ width: 0 }} whileInView={{ width: 48 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           className="h-1 bg-[#00D1FF] rounded-full mx-auto mb-3" 
         />
         <p className="text-slate-400 text-sm">Real-world projects I've built and led</p>
       </motion.div>
 
-      {/* Grid - 2 columns top, then remaining */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-        {projects.map((project, idx) => (
-          <motion.div 
-            variants={cardVariants}
-            whileHover={{ scale: 1.02, y: -5 }}
-            key={idx} 
-            className={`bg-[#111827]/60 backdrop-blur-sm border border-white/[0.06] rounded-2xl overflow-hidden hover:border-[#00D1FF]/40 transition-all duration-300 group cursor-pointer hover:shadow-[0_15px_40px_rgba(0,209,255,0.12)] ${idx === 4 ? 'md:col-span-2 md:max-w-[50%] md:mx-auto' : ''}`}
+      {/* Filter Tabs */}
+      <motion.div variants={headerVariants} className="flex items-center gap-2 mb-6 p-1 bg-white/[0.03] border border-white/[0.06] rounded-xl">
+        {filters.map(f => (
+          <button
+            key={f}
+            onClick={() => setActiveFilter(f)}
+            className={`relative px-3.5 py-1.5 rounded-lg text-[10.5px] font-bold uppercase tracking-widest transition-all duration-300 ${
+              activeFilter === f
+                ? 'bg-[#00D1FF]/15 text-[#00D1FF] border border-[#00D1FF]/30 shadow-[0_0_12px_rgba(0,209,255,0.15)]'
+                : 'text-slate-500 hover:text-slate-300 border border-transparent'
+            }`}
           >
-            {/* Top gradient bar */}
-            <div className={`h-1 w-full bg-gradient-to-r ${project.gradient}`}></div>
-            
-            {/* Content */}
-            <div className="p-5">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-white text-base font-bold group-hover:text-[#00D1FF] transition-colors">{project.title}</h3>
-                <span className="text-[9px] text-[#00D1FF]/70 uppercase tracking-wider font-semibold bg-[#00D1FF]/[0.06] px-2 py-1 rounded-full">{project.role}</span>
-              </div>
-              
-              {/* Bullet points */}
-              <ul className="space-y-1.5 mb-4">
-                {project.desc.map((point, i) => (
-                  <li key={i} className="text-slate-400 text-[11px] leading-relaxed flex items-start gap-2">
-                    <span className="text-[#00D1FF] mt-0.5 shrink-0">▸</span>
-                    {point}
-                  </li>
-                ))}
-              </ul>
-              
-              {/* Tags */}
-              <div className="flex flex-wrap gap-1.5">
-                {project.tags.map(tag => (
-                  <span key={tag} className="px-2 py-0.5 bg-[#00D1FF]/[0.05] border border-[#00D1FF]/10 rounded-full text-[10px] text-[#00D1FF]/70 font-medium">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </motion.div>
+            {f}
+          </button>
         ))}
-      </div>
-      
+      </motion.div>
+
+      {/* Grid */}
+      <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-full">
+        <AnimatePresence>
+          {filtered.map((project) => (
+            <motion.div
+              layout
+              key={project.id}
+              initial={{ opacity: 0, scale: 0.92, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.88, y: -10 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="group relative bg-[#0B1120]/90 border border-white/[0.06] rounded-2xl overflow-hidden flex flex-col"
+              whileHover={{ boxShadow: `0 0 30px ${project.accent.glow}`, borderColor: `${project.accent.color}40` }}
+            >
+              {/* Accent sweep on hover — slides across top */}
+              <div className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r ${project.accent.sweep} -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out z-20`}></div>
+
+              {/* Static accent top bar */}
+              <div className={`h-[2px] w-full bg-gradient-to-r ${project.gradient} opacity-60`}></div>
+
+              {/* Thumbnail with hover overlay */}
+              <div className="relative h-36 w-full overflow-hidden bg-black/60 shrink-0">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                />
+                {/* Overlay on hover */}
+                <div className="absolute inset-0 bg-[#0B1120]/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3 z-10">
+                  <button
+                    onClick={() => navigate(`/project/${project.id}`)}
+                    className="px-4 py-2 rounded-lg text-[11px] font-bold tracking-wide border transition-all duration-200"
+                    style={{ color: project.accent.color, borderColor: `${project.accent.color}60`, background: `${project.accent.color}15` }}
+                  >
+                    Details
+                  </button>
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2 rounded-lg text-[11px] font-bold tracking-wide bg-white/10 border border-white/20 text-white hover:bg-white/20 transition-all duration-200"
+                  >
+                    Live ↗
+                  </a>
+                </div>
+
+                {/* Category badge */}
+                <div
+                  className="absolute top-2 right-2 px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest z-20"
+                  style={{ color: project.accent.color, background: `${project.accent.color}20`, border: `1px solid ${project.accent.color}40` }}
+                >
+                  {project.accent.label}
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="p-4 flex flex-col flex-grow">
+                <h3 className="text-white text-[14px] font-bold mb-2 truncate">
+                  {project.title}
+                </h3>
+
+                {/* Bullet points */}
+                <ul className="space-y-1 mb-3 flex-grow">
+                  {project.desc.map((point, i) => (
+                    <li key={i} className="text-slate-400 text-[10.5px] leading-relaxed flex items-start gap-1.5">
+                      <span className="mt-0.5 shrink-0 opacity-70" style={{ color: project.accent.color }}>▸</span>
+                      <span className="line-clamp-2">{point}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Tags */}
+                <div className="flex flex-wrap gap-1.5 mb-3">
+                  {project.tags.slice(0, 3).map(tag => (
+                    <span
+                      key={tag}
+                      className="px-1.5 py-0.5 rounded text-[9px] font-medium tracking-wide"
+                      style={{ color: `${project.accent.color}cc`, background: `${project.accent.color}10`, border: `1px solid ${project.accent.color}25` }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                  {project.tags.length > 3 && (
+                    <span className="px-1.5 py-0.5 bg-white/[0.02] border border-white/[0.05] rounded text-[9px] text-slate-500">
+                      +{project.tags.length - 3}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Role Footer Bar */}
+              <div
+                className="px-4 py-2.5 flex items-center justify-between border-t text-[9.5px] font-bold uppercase tracking-widest"
+                style={{ borderColor: `${project.accent.color}20`, background: `${project.accent.color}08`, color: `${project.accent.color}bb` }}
+              >
+                <span>{project.role}</span>
+                <span className="opacity-50">→</span>
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </motion.div>
     </motion.div>
   );
 }
@@ -947,7 +1187,7 @@ function ContactSection() {
       whileInView="visible"
       viewport={{ once: false, amount: 0.2 }}
       variants={containerVariants}
-      className="w-full max-w-[1000px] flex flex-col md:flex-row items-center justify-between px-8 pr-28 gap-12 relative"
+      className="w-full max-w-[1000px] flex flex-col md:flex-row items-center justify-between px-8 gap-12 relative"
     >
       
       {/* Left: Contact info */}
@@ -1003,7 +1243,7 @@ function ContactSection() {
 
       {/* Right: Contact form */}
       <motion.div variants={rightVariants} className="w-full md:w-[55%]">
-        <form onSubmit={handleSubmit} className="bg-[#111827]/60 backdrop-blur-xl border border-white/[0.06] rounded-2xl p-7 shadow-[0_20px_60px_rgba(0,0,0,0.3)]">
+        <form onSubmit={handleSubmit} className="glass-card rounded-2xl p-7 shadow-[0_20px_60px_rgba(0,0,0,0.3)]">
           <div className="space-y-5">
             <div>
               <label className="text-xs text-slate-400 mb-2 block font-medium">Your Name</label>
@@ -1014,7 +1254,7 @@ function ContactSection() {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Your full name"
-                className="w-full bg-[#0B1120]/80 border border-white/[0.08] rounded-xl px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-[#00D1FF]/40 focus:shadow-[0_0_15px_rgba(0,209,255,0.1)] transition-all"
+                className="w-full bg-[#0B1120]/50 border border-white/[0.06] rounded-xl px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-[#00D1FF]/40 focus:shadow-[0_0_15px_rgba(0,209,255,0.1)] transition-all"
               />
             </div>
             <div>
@@ -1026,7 +1266,7 @@ function ContactSection() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="you@example.com"
-                className="w-full bg-[#0B1120]/80 border border-white/[0.08] rounded-xl px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-[#00D1FF]/40 focus:shadow-[0_0_15px_rgba(0,209,255,0.1)] transition-all"
+                className="w-full bg-[#0B1120]/50 border border-white/[0.06] rounded-xl px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-[#00D1FF]/40 focus:shadow-[0_0_15px_rgba(0,209,255,0.1)] transition-all"
               />
             </div>
             <div>
@@ -1038,7 +1278,7 @@ function ContactSection() {
                 onChange={handleChange}
                 placeholder="Tell me about your project..."
                 rows={4}
-                className="w-full bg-[#0B1120]/80 border border-white/[0.08] rounded-xl px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-[#00D1FF]/40 focus:shadow-[0_0_15px_rgba(0,209,255,0.1)] transition-all resize-none"
+                className="w-full bg-[#0B1120]/50 border border-white/[0.06] rounded-xl px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-[#00D1FF]/40 focus:shadow-[0_0_15px_rgba(0,209,255,0.1)] transition-all resize-none"
               />
             </div>
 
@@ -1057,11 +1297,11 @@ function ContactSection() {
             )}
 
             <motion.button 
-              whileHover={{ scale: 1.02, boxShadow: "0 0 25px rgba(0,209,255,0.4)" }}
+              whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-[#00D1FF] hover:bg-[#00b8e6] text-white text-sm font-medium rounded-xl transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 relative overflow-hidden group"
+              className="w-full py-3 cta-button text-white text-sm font-medium rounded-xl transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 relative overflow-hidden group"
             >
               <FiSend size={16} className="relative z-10" />
               <span className="relative z-10">{loading ? 'Sending...' : 'Send Message'}</span>
