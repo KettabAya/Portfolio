@@ -4,7 +4,6 @@ import { FiHome, FiUser, FiBriefcase, FiMail, FiMapPin, FiPhone, FiSend, FiChevr
 import { FaGraduationCap, FaPalette, FaPuzzlePiece, FaHandshake, FaFire } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
-import CVTemplate from './components/CVTemplate';
 import picBg from './assets/pic_bg.jpg';
 
 // Import project screenshots
@@ -129,7 +128,6 @@ function App() {
 function MainLayout() {
   const [activeTab, setActiveTab] = useState('home');
   const mainRef = useRef(null);
-  const cvRef = useRef(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -293,7 +291,7 @@ function MainLayout() {
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,#0B1120_95%)] z-20"></div>
           </div>
 
-          <HeroSection onViewWork={() => scrollToSection('portfolio')} cvRef={cvRef} />
+          <HeroSection onViewWork={() => scrollToSection('portfolio')} />
           {/* Scroll indicator */}
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none z-30">
             <span className="text-[10px] text-slate-500 uppercase tracking-widest mb-3 font-semibold">Scroll</span>
@@ -323,10 +321,6 @@ function MainLayout() {
           <ContactSection />
         </section>
       </main>
-      
-      <div style={{ position: 'fixed', left: '-9999px', top: 0, pointerEvents: 'none', zIndex: -1 }}>
-        <CVTemplate ref={cvRef} />
-      </div>
     </div>
   );
 }
@@ -361,7 +355,7 @@ function NavItem({ icon, id, active, onClick }) {
 }
 
 // ========== HERO SECTION ==========
-function HeroSection({ onViewWork, cvRef }) {
+function HeroSection({ onViewWork }) {
   const roles = ['Full-Stack Engineer', 'Software Engineering Student', 'AI Enthusiast'];
   const [roleIndex, setRoleIndex] = useState(0);
   const [displayText, setDisplayText] = useState('');
@@ -496,23 +490,10 @@ function HeroSection({ onViewWork, cvRef }) {
         >
           View My Work
         </motion.button>
-        <motion.button 
-          whileHover={{ scale: 1.05, borderColor: "rgba(0, 209, 255, 0.4)", backgroundColor: "rgba(255,255,255,0.05)", boxShadow: "0 0 20px rgba(0, 209, 255, 0.2)" }}
-          whileTap={{ scale: 0.95 }}
-          onClick={async () => {
-            if (cvRef && cvRef.current) {
-              const html2pdf = (await import('html2pdf.js')).default;
-              const opt = {
-                margin:       0,
-                filename:     'Rania_Keghouche_CV.pdf',
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, logging: false },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-              };
-              html2pdf().set(opt).from(cvRef.current).save();
-            }
-          }}
-          className="px-8 py-3 bg-white/[0.05] border border-white/10 text-white text-sm font-medium rounded-full transition-all cursor-pointer relative overflow-hidden group"
+        <a 
+          href="/Rania_Keghouche_CV.png"
+          download="Rania_Keghouche_CV.png"
+          className="px-8 py-3 bg-white/[0.05] border border-white/10 text-white text-sm font-medium rounded-full transition-all cursor-pointer relative overflow-hidden group inline-flex items-center justify-center hover:bg-white/10 hover:border-white/20"
         >
           <span className="relative z-10">Download CV</span>
           <motion.div 
@@ -520,7 +501,7 @@ function HeroSection({ onViewWork, cvRef }) {
             whileHover={{ translateX: "100%" }}
             transition={{ duration: 0.8, ease: "easeInOut" }}
           />
-        </motion.button>
+        </a>
       </motion.div>
     </motion.div>
   );
