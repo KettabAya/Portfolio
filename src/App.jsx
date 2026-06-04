@@ -112,17 +112,20 @@ export const projectsData = [
   },
   { 
     id: "carpooling-app",
-    title: "Carpooling App", 
+    title: "Wassling", 
     role: "Front-End Dev · Mobile",
     category: "Mobile",
     status: "Finished",
     type: "University",
     accent: { color: "#22C55E", glow: "rgba(34,197,94,0.2)", label: "Mobile", sweep: "from-green-500/30 to-emerald-400/10" },
     desc: [
-      "Responsive UI for trip and booking management",
-      "Mobile-first UX with React Native & Expo"
+      "Ride search, filtering, and real-time ride booking",
+      "Real-time GPS tracking with maps integration",
+      "In-app chat messaging system",
+      "User rating and review system",
+      "Push notifications and personalized user profiles"
     ],
-    tags: ["React Native", "Expo", "JavaScript"],
+    tags: ["React Native", "Expo", "TypeScript", "React Navigation"],
     gradient: "from-green-500/25 to-emerald-500/10",
     image: carpoolingPreview,
   },
