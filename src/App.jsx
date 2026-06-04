@@ -63,11 +63,14 @@ export const projectsData = [
     desc: [
       "Advanced geolocation-based gym search and filtering",
       "User authentication with email verification",
-      "Gym profiles, schedules, and equipment listings",
+      "Gym profiles with photos, schedules, and equipment listings",
       "Course booking and subscription management",
-      "Rating and review system with detailed criteria"
+      "Rating and review system with detailed criteria",
+      "Multi-criteria filtering (distance, services, equipment)",
+      "Search history tracking",
+      "Responsive user interface"
     ],
-    tags: ["Django", "PostgreSQL", "Vue 3", "Vite", "Docker", "Nginx"],
+    tags: ["Django REST", "PostgreSQL", "Vue 3", "Vite", "Leaflet.js", "Docker", "Nginx"],
     gradient: "from-amber-500/30 to-yellow-500/10",
     image: dzFitPreview,
     images: [dzFitDash, dzFitReviews, dzFitCourses],
@@ -98,13 +101,13 @@ export const projectsData = [
     type: "Personal",
     accent: { color: "#A855F7", glow: "rgba(168,85,247,0.25)", label: "AI / LLM", sweep: "from-violet-500/30 to-purple-400/10" },
     desc: [
-      "Multilingual Support: English, French, and Arabic/Darija",
-      "Intelligent Query Processing & Semantic Search via vector embeddings",
-      "RAG Architecture for contextually accurate responses",
-      "Comprehensive Knowledge Base with 9 specialized collections",
-      "Production-Ready with CORS, rate limiting, and helmet security"
+      "Multilingual Support: Seamlessly processes queries in English, French, and Arabic/Algerian Darija",
+      "Intelligent Query Processing: AI-powered query rewriting and semantic search using vector embeddings",
+      "RAG Architecture: Combines vector search with large language models for contextually accurate responses",
+      "Comprehensive Knowledge Base: 9 specialized document collections",
+      "Production-Ready: Implements security best practices, error handling, and logging"
     ],
-    tags: ["Node.js", "Express.js", "MongoDB", "Groq API", "RAG"],
+    tags: ["Node.js", "Express.js", "MongoDB", "Groq API", "Cohere AI", "RAG"],
     gradient: "from-violet-500/25 to-purple-500/10",
     image: nhsmHelperPreview,
     images: [nhsmHelper1],
