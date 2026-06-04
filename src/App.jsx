@@ -26,6 +26,12 @@ import innersky2 from './assets/innersky_2.jpg';
 import innersky3 from './assets/innersky_3.jpg';
 import innersky4 from './assets/innersky_4.jpg';
 
+// Wassling images
+import wassling1 from './assets/wassling_1.jpg';
+import wassling2 from './assets/wassling_2.jpg';
+import wassling3 from './assets/wassling_3.jpg';
+import wassling4 from './assets/wassling_4.jpg';
+
 const tabs = ['home', 'about', 'portfolio', 'skills', 'contact'];
 
 import ProjectDetails from './components/ProjectDetails';
@@ -131,6 +137,7 @@ export const projectsData = [
     tags: ["React Native", "Expo", "TypeScript", "React Navigation"],
     gradient: "from-green-500/25 to-emerald-500/10",
     image: carpoolingPreview,
+    images: [wassling1, wassling2, wassling3, wassling4],
   },
   { 
     id: "geriaasafe",
