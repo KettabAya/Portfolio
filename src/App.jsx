@@ -40,7 +40,7 @@ export const projectsData = [
   { 
     id: "innersky",
     title: "InnerSky (MindCompass)", 
-    role: "Full-Stack Dev · Hackathon",
+    role: "Full-Stack Dev · Personal",
     category: "Full-Stack",
     status: "Finished",
     type: "Personal",
@@ -61,7 +61,7 @@ export const projectsData = [
   { 
     id: "dz-fit",
     title: "DZ-Fit", 
-    role: "Tech Lead · Back-End",
+    role: "Tech Lead · Personal",
     category: "Back-End",
     status: "Finished",
     type: "Personal",
@@ -85,10 +85,10 @@ export const projectsData = [
   { 
     id: "iotopia",
     title: "IoTopia", 
-    role: "Back-End Dev · Academic",
+    role: "Back-End Dev · Personal",
     category: "Back-End",
     status: "Finished",
-    type: "University",
+    type: "Personal",
     accent: { color: "#00D1FF", glow: "rgba(0,209,255,0.2)", label: "Back-End", sweep: "from-cyan-500/30 to-cyan-400/10" },
     desc: [
       "Backend for a gamified IoT learning platform",
@@ -138,10 +138,10 @@ export const projectsData = [
   { 
     id: "carpooling-app",
     title: "Wassling", 
-    role: "Front-End Dev · Mobile",
+    role: "Front-End Dev · Personal",
     category: "Mobile",
     status: "Finished",
-    type: "University",
+    type: "Personal",
     accent: { color: "#22C55E", glow: "rgba(34,197,94,0.2)", label: "Mobile", sweep: "from-green-500/30 to-emerald-400/10" },
     desc: [
       "Ride search, filtering, and real-time ride booking",
@@ -158,10 +158,10 @@ export const projectsData = [
   { 
     id: "geriaasafe",
     title: "GériaSafe", 
-    role: "Front-End Dev · Web",
+    role: "Front-End Dev · Personal",
     category: "Front-End",
     status: "Finished",
-    type: "University",
+    type: "Personal",
     accent: { color: "#818CF8", glow: "rgba(129,140,248,0.25)", label: "Front-End", sweep: "from-indigo-500/30 to-violet-400/10" },
     desc: [
       "Interactive senior care prescription guide",
