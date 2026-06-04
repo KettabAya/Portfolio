@@ -107,6 +107,13 @@ export const projectsData = [
     type: "Personal",
     accent: { color: "#A855F7", glow: "rgba(168,85,247,0.25)", label: "AI / LLM", sweep: "from-violet-500/30 to-purple-400/10" },
     desc: [
+      "Multilingual Support: Seamlessly processes queries in English, French, and Arabic/Algerian Darija",
+      "Intelligent Query Processing: AI-powered query rewriting and semantic search using vector embeddings",
+      "RAG Architecture: Combines vector search with large language models for contextually accurate responses",
+      "Comprehensive Knowledge Base: 9 specialized document collections (FAQs, teacher information, specialties, study tips, wellness resources, math tips, student experiences, and humor)",
+      "Production-Ready: Implements security best practices (CORS, rate limiting, helmet security headers), error handling, and comprehensive logging"
+    ],
+    fullDesc: [
       "An intelligent conversational AI assistant designed for NHSM school that leverages modern retrieval-augmented generation (RAG) architecture to provide accurate, context-aware responses to student and staff inquiries. The chatbot integrates a comprehensive knowledge base spanning institutional information, academic resources, wellness guidance, and teacher profiles to deliver personalized support across multiple languages (English, French, and Arabic/Darija).",
       "\u00A0",
       "KEY FEATURES:",

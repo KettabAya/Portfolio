@@ -222,7 +222,7 @@ function ProjectDetails() {
 
               {/* Accent-bordered description block */}
               <div className="pl-4 border-l-2 space-y-3 mb-6" style={{ borderColor: `${accent}50` }}>
-                {project.desc.map((line, i) => (
+                {(project.fullDesc || project.desc).map((line, i) => (
                   <p key={i} className="text-slate-300 text-[15px] leading-relaxed">{line}</p>
                 ))}
                 <p className="text-slate-400 text-[14px] leading-relaxed">
