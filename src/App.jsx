@@ -94,7 +94,7 @@ export const projectsData = [
   },
   { 
     id: "ai-study-chatbot",
-    title: "NHSM Helper", 
+    title: "NHSM AI Chatbot", 
     role: "AI Developer · Personal",
     category: "AI",
     status: "Finished",
@@ -104,8 +104,8 @@ export const projectsData = [
       "Multilingual Support: Seamlessly processes queries in English, French, and Arabic/Algerian Darija",
       "Intelligent Query Processing: AI-powered query rewriting and semantic search using vector embeddings",
       "RAG Architecture: Combines vector search with large language models for contextually accurate responses",
-      "Comprehensive Knowledge Base: 9 specialized document collections",
-      "Production-Ready: Implements security best practices, error handling, and logging"
+      "Comprehensive Knowledge Base: 9 specialized document collections (FAQs, teacher information, specialties, study tips, wellness resources, math tips, student experiences, and humor)",
+      "Production-Ready: Implements security best practices (CORS, rate limiting, helmet security headers), error handling, and comprehensive logging"
     ],
     tags: ["Node.js", "Express.js", "MongoDB", "Groq API", "Cohere AI", "RAG"],
     gradient: "from-violet-500/25 to-purple-500/10",
