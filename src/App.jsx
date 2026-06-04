@@ -593,7 +593,7 @@ function AboutSection() {
         {/* Quote */}
         <div className="relative pl-4 border-l-2 border-[#00D1FF]/40 mb-5">
           <p className="text-slate-400 text-[11.5px] leading-relaxed italic">
-            Engineering student at ESTIN. Full-stack foundation, end-to-end project ownership, backend architectures &amp; mobile UIs. Fast adapter who delivers under pressure.
+            Engineering student at ESTIN (3rd year completed — Bachelor's equivalent) with a strong full-stack foundation and a drive for ownership. I have led technical projects end-to-end as team referent, built backend architectures, and shipped mobile UIs. I adapt fast to new technologies and consistently deliver under pressure — whether solo or as the team's go-to technical reference.
           </p>
         </div>
 
@@ -610,7 +610,7 @@ function AboutSection() {
         <div className="space-y-2.5 mb-5">
           <LangBar name="Arabic" percentage={100} />
           <LangBar name="French" percentage={80} />
-          <LangBar name="English" percentage={65} />
+          <LangBar name="English" percentage={80} />
         </div>
 
         {/* Stats Bar */}
@@ -645,13 +645,13 @@ function AboutSection() {
             <div className="absolute left-[3px] top-2 bottom-2 w-[1px] bg-gradient-to-b from-[#00D1FF]/40 via-white/10 to-transparent"></div>
             <EduItem 
               school="ESTIN, Bejaia" 
-              degree="1st Year Graduate Cycle — Software Engineering" 
+              degree="Cycle Supérieur" 
               date="Sept 2025 – Present" 
               current
             />
             <EduItem 
               school="ESTIN, Bejaia" 
-              degree="Preparatory Cycle" 
+              degree="Cycle Préparatoire" 
               date="Sept 2023 – Jun 2025" 
             />
             <EduItem 
@@ -665,11 +665,11 @@ function AboutSection() {
           <h3 className="text-[10px] font-bold text-[#00D1FF] uppercase tracking-[0.2em] mb-3">Core Competencies</h3>
           <div className="flex flex-wrap gap-2">
             {[
-              { icon: <FaPuzzlePiece className="text-[#00D1FF]" size={10} />, text: 'Problem Solving' },
+              { icon: <FaPuzzlePiece className="text-[#00D1FF]" size={10} />, text: 'Problem Solving & Algorithms' },
               { icon: <FaFire className="text-[#00D1FF]" size={10} />, text: 'Autonomy & Ownership' },
               { icon: <FaHandshake className="text-[#00D1FF]" size={10} />, text: 'Team Collaboration' },
-              { icon: <FiClock className="text-[#00D1FF]" size={10} />, text: 'Under Pressure' },
-              { icon: <FiFileText className="text-[#00D1FF]" size={10} />, text: 'Communication' }
+              { icon: <FiClock className="text-[#00D1FF]" size={10} />, text: 'Delivery Under Pressure' },
+              { icon: <FiFileText className="text-[#00D1FF]" size={10} />, text: 'Clear Communication & Docs' }
             ].map((skill, index) => (
               <motion.span 
                 whileHover={{ scale: 1.05, y: -1 }}
@@ -782,7 +782,7 @@ function SkillsSection() {
       icon: <FiServer size={14} />,
       accent: '#2DD4BF',          // Teal
       glow: 'rgba(45,212,191,0.18)',
-      skills: ['Node.js', 'Express.js', 'FastAPI', 'Django', 'JWT Auth', 'REST API'],
+      skills: ['Node.js', 'Express.js', 'FastAPI', 'Django', 'JWT Authentication', 'REST API Design', 'Authentication & Authorization'],
       proficiency: [85, 82, 78]
     },
     {
@@ -790,7 +790,7 @@ function SkillsSection() {
       icon: <FaPalette size={14} />,
       accent: '#4ADE80',          // Lime Green
       glow: 'rgba(74,222,128,0.18)',
-      skills: ['React.js', 'React Native', 'Vue.js', 'Tailwind CSS', 'Expo', 'HTML5', 'CSS3'],
+      skills: ['React.js', 'React Native', 'Vue.js', 'Tailwind CSS', 'Expo', 'HTML5', 'CSS3', 'Responsive Design'],
       proficiency: [88, 82, 75]
     },
     {
@@ -798,7 +798,7 @@ function SkillsSection() {
       icon: <FiDatabase size={14} />,
       accent: '#A78BFA',          // Soft Violet
       glow: 'rgba(167,139,250,0.18)',
-      skills: ['PostgreSQL', 'MongoDB', 'SQL', 'Schema Modelling'],
+      skills: ['PostgreSQL', 'MongoDB', 'SQL', 'Database Design', 'Schema Modeling'],
       proficiency: [80, 75, 70]
     },
     {
@@ -806,15 +806,15 @@ function SkillsSection() {
       icon: <FiLayers size={14} />,
       accent: '#FB923C',          // Warm Orange
       glow: 'rgba(251,146,60,0.18)',
-      skills: ['Docker', 'Git/GitHub', 'Linux', 'Postman', 'VS Code', 'npm'],
+      skills: ['Docker', 'Git/GitHub', 'Linux', 'REST APIs', 'Postman', 'VS Code', 'Linux CLI', 'npm'],
       proficiency: [78, 90, 85]
     },
     {
-      title: 'AI Tools',
+      title: 'AI Skills (Beginner Level)',
       icon: <FiGlobe size={14} />,
       accent: '#F472B6',          // Fuchsia Pink
       glow: 'rgba(244,114,182,0.18)',
-      skills: ['Copilot', 'Claude', 'Cursor', 'Prompt Engineering', 'LLM Integration'],
+      skills: ['ML & DL', 'Computer Vision', 'NLP', 'LLMs Integration', 'Classical AI'],
       proficiency: [85, 80, 75]
     }
   ];
