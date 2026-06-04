@@ -141,7 +141,7 @@ function ProjectDetails() {
           className="w-full max-w-[800px] mx-auto mb-12"
         >
           <div 
-            className="w-full rounded-2xl overflow-hidden border shadow-2xl relative bg-[#0B1120] flex items-center justify-center min-h-[300px]"
+            className="w-full h-[400px] md:h-[600px] rounded-2xl overflow-hidden border shadow-2xl relative bg-[#0B1120] flex items-center justify-center"
             style={{ borderColor: `${accent}30`, boxShadow: `0 0 40px ${glow}` }}
           >
             <div className="absolute top-0 left-0 w-full h-[2px] z-20" style={{ background: `linear-gradient(90deg, ${accent}, ${accent}20)` }} />
