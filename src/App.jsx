@@ -61,11 +61,13 @@ export const projectsData = [
     type: "Personal",
     accent: { color: "#F59E0B", glow: "rgba(245,158,11,0.25)", label: "Lead Role", sweep: "from-yellow-500/30 to-amber-400/10" },
     desc: [
-      "Led full technical cycle of a gym search platform",
-      "RESTful API for gym, slot & booking management",
-      "PostgreSQL geo-search optimization + Docker"
+      "Advanced geolocation-based gym search and filtering",
+      "User authentication with email verification",
+      "Gym profiles, schedules, and equipment listings",
+      "Course booking and subscription management",
+      "Rating and review system with detailed criteria"
     ],
-    tags: ["Django", "FastAPI", "PostgreSQL", "Docker"],
+    tags: ["Django", "PostgreSQL", "Vue 3", "Vite", "Docker", "Nginx"],
     gradient: "from-amber-500/30 to-yellow-500/10",
     image: dzFitPreview,
     images: [dzFitDash, dzFitReviews, dzFitCourses],
@@ -86,7 +88,6 @@ export const projectsData = [
     tags: ["Node.js", "MongoDB", "JavaScript"],
     gradient: "from-cyan-500/25 to-teal-500/10",
     image: iotopiaPreview,
-    link: "https://github.com/KettabAya/IoTopia"
   },
   { 
     id: "ai-study-chatbot",
@@ -97,10 +98,13 @@ export const projectsData = [
     type: "Personal",
     accent: { color: "#A855F7", glow: "rgba(168,85,247,0.25)", label: "AI / LLM", sweep: "from-violet-500/30 to-purple-400/10" },
     desc: [
-      "Llama3 LLM integration for maths study assistance",
-      "Conversational UI tailored to NHSM learning workflows"
+      "Multilingual Support: English, French, and Arabic/Darija",
+      "Intelligent Query Processing & Semantic Search via vector embeddings",
+      "RAG Architecture for contextually accurate responses",
+      "Comprehensive Knowledge Base with 9 specialized collections",
+      "Production-Ready with CORS, rate limiting, and helmet security"
     ],
-    tags: ["Python", "Llama3", "API Integration"],
+    tags: ["Node.js", "Express.js", "MongoDB", "Groq API", "RAG"],
     gradient: "from-violet-500/25 to-purple-500/10",
     image: nhsmHelperPreview,
     images: [nhsmHelper1],
@@ -121,7 +125,6 @@ export const projectsData = [
     tags: ["React Native", "Expo", "JavaScript"],
     gradient: "from-green-500/25 to-emerald-500/10",
     image: carpoolingPreview,
-    link: "https://github.com/KettabAya/Carpooling-App"
   },
   { 
     id: "geriaasafe",
