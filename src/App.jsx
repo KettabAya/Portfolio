@@ -14,7 +14,7 @@ import dzFitCourses from './assets/dz_fit_courses.png';
 import iotopiaPreview from './assets/iotopia_preview.png';
 import nhsmHelperPreview from './assets/nhsm_helper_preview.png';
 import nhsmHelper1 from './assets/nhsm_helper_1.png';
-import carpoolingPreview from './assets/carpooling_preview.png';
+import wasslingPreview from './assets/wassling_preview.jpg';
 import geriasafePreview from './assets/geriasafe_preview.png';
 import geriasafe1 from './assets/geriasafe_1.png';
 import geriasafe2 from './assets/geriasafe_2.png';
@@ -136,7 +136,7 @@ export const projectsData = [
     ],
     tags: ["React Native", "Expo", "TypeScript", "React Navigation"],
     gradient: "from-green-500/25 to-emerald-500/10",
-    image: carpoolingPreview,
+    image: wasslingPreview,
     images: [wassling1, wassling2, wassling3, wassling4],
   },
   { 
