@@ -20,11 +20,38 @@ import geriasafe1 from './assets/geriasafe_1.png';
 import geriasafe2 from './assets/geriasafe_2.png';
 import geriasafe3 from './assets/geriasafe_3.png';
 
+// InnerSky images
+import innersky1 from './assets/innersky_1.jpg';
+import innersky2 from './assets/innersky_2.jpg';
+import innersky3 from './assets/innersky_3.jpg';
+import innersky4 from './assets/innersky_4.jpg';
+
 const tabs = ['home', 'about', 'portfolio', 'skills', 'contact'];
 
 import ProjectDetails from './components/ProjectDetails';
 
 export const projectsData = [
+  { 
+    id: "innersky",
+    title: "InnerSky (MindCompass)", 
+    role: "Full-Stack Dev · Hackathon",
+    category: "Full-Stack",
+    status: "Finished",
+    type: "Personal",
+    accent: { color: "#8B5CF6", glow: "rgba(139,92,246,0.25)", label: "AI Wellness", sweep: "from-violet-500/30 to-purple-400/10" },
+    desc: [
+      "Track mood and emotional trends via an interactive constellation",
+      "Manage habits with goal tracking and AI assistance",
+      "Visualize life on a personal \"Life Map\" galaxy",
+      "Plan the week with an AI-powered planning assistant",
+      "Complete daily challenges and unlock badges"
+    ],
+    tags: ["React 18", "TypeScript", "Django REST", "PWA", "Capacitor", "Groq AI Llama3"],
+    gradient: "from-violet-500/30 to-purple-500/10",
+    image: innersky1,
+    images: [innersky1, innersky2, innersky3, innersky4],
+    link: "https://innersky.netlify.app/"
+  },
   { 
     id: "dz-fit",
     title: "DZ-Fit", 
