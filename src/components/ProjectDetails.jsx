@@ -147,6 +147,18 @@ function ProjectDetails() {
             <div className="absolute top-0 left-0 w-full h-[2px] z-20" style={{ background: `linear-gradient(90deg, ${accent}, ${accent}20)` }} />
             
             <AnimatePresence mode="wait">
+              {/* Blurred Background to fill gaps */}
+              <motion.img
+                key={`bg-${currentImageIdx}`}
+                src={images[currentImageIdx]}
+                alt=""
+                className="absolute inset-0 w-full h-full object-cover blur-xl opacity-30 scale-110"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.3 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+              />
+              {/* Foreground Contained Image */}
               <motion.img
                 key={currentImageIdx}
                 src={images[currentImageIdx]}
@@ -154,8 +166,9 @@ function ProjectDetails() {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
                 className="w-full h-auto object-contain block relative z-10"
+                style={{ maxHeight: '100%' }}
               />
             </AnimatePresence>
 

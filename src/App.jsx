@@ -1039,10 +1039,17 @@ function PortfolioSection() {
 
               {/* Thumbnail with hover overlay */}
               <div className="relative h-36 w-full overflow-hidden bg-black/60 shrink-0">
+                {/* Blurred background to fill gaps */}
+                <img
+                  src={project.image}
+                  alt=""
+                  className="absolute inset-0 w-full h-full object-cover blur-xl opacity-40 scale-110"
+                />
+                {/* Foreground contained image */}
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  className="w-full h-full object-contain relative z-10 group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
                 {/* Overlay on hover */}
                 <div className="absolute inset-0 bg-[#0B1120]/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3 z-10">
