@@ -82,22 +82,7 @@ export const projectsData = [
     images: [dzFitDash, dzFitReviews, dzFitCourses],
     link: "https://dz-fit.up.railway.app/"
   },
-  { 
-    id: "iotopia",
-    title: "IoTopia", 
-    role: "Back-End Dev · Personal",
-    category: "Back-End",
-    status: "Finished",
-    type: "Personal",
-    accent: { color: "#00D1FF", glow: "rgba(0,209,255,0.2)", label: "Back-End", sweep: "from-cyan-500/30 to-cyan-400/10" },
-    desc: [
-      "Backend for a gamified IoT learning platform",
-      "Quiz engine, user progression & secured API endpoints"
-    ],
-    tags: ["Node.js", "MongoDB", "JavaScript"],
-    gradient: "from-cyan-500/25 to-teal-500/10",
-    image: iotopiaPreview,
-  },
+
   { 
     id: "ai-study-chatbot",
     title: "NHSM AI Chatbot", 
