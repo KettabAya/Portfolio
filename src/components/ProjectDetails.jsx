@@ -304,18 +304,7 @@ function ProjectDetails() {
                   </a>
                 )}
 
-                {/* GitHub link always shown */}
-                <a
-                  href={isLive ? `https://github.com/KettabAya` : project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-between group px-4 py-3 rounded-xl border border-white/[0.05] bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.05] transition-all duration-200"
-                >
-                  <span className="flex items-center gap-2.5 text-[12.5px] font-semibold text-slate-300">
-                    <FiGithub size={14} className="text-slate-400" /> Source Code
-                  </span>
-                  <FiExternalLink size={13} className="text-slate-600 group-hover:text-slate-400 transition-colors" />
-                </a>
+                {/* Source code link removed as per user request */}
               </div>
             </div>
 
